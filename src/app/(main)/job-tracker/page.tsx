@@ -2523,6 +2523,7 @@ export default function JobTracker() {
                   href={form.resumeUrl}
                   target="_blank"
                   className="mt-2 inline-block text-sm text-indigo-600 underline hover:text-indigo-800"
+                  rel="noreferrer"
                 >
                   View Resume
                 </a>
@@ -2565,6 +2566,7 @@ export default function JobTracker() {
                   href={form.coverLetterUrl}
                   target="_blank"
                   className="mt-2 inline-block text-sm text-indigo-600 underline hover:text-indigo-800"
+                  rel="noreferrer"
                 >
                   View Cover Letter
                 </a>
@@ -2900,6 +2902,7 @@ export default function JobTracker() {
                             href={job.applyLink}
                             target="_blank"
                             className="text-indigo-600 underline hover:text-indigo-800"
+                            rel="noreferrer"
                           >
                             Apply
                           </a>

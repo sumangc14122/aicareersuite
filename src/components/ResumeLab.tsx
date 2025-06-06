@@ -566,7 +566,9 @@ export default function ResumeLab() {
         setSelection(sel.toString());
         setRect(r);
         return;
-      } catch {}
+      } catch (e) {
+      console.error(e);
+      }
     }
     setSelection("");
     setRect(null);

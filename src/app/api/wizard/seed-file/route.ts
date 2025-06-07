@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { openai } from "@/lib/openai";
+import pdfParse from "pdf-parse/lib/pdf-parse.js";
+
 
 export const config = { api: { bodyParser: false } };
 
@@ -22,11 +24,15 @@ export async function POST(req: Request) {
     const lower = file.name.toLowerCase();
     let text: string;
     if (lower.endsWith(".pdf")) {
-      const pdfParse = eval("require")("pdf-parse") as (
-        buf: Buffer,
-      ) => Promise<{ text: string }>;
-      const parsed = await pdfParse(buffer);
-      text = parsed.text;
+      // const pdfParse = eval("require")("pdf-parse") as (
+      //   buf: Buffer,
+      // ) => Promise<{ text: string }>;
+      // const parsed = await pdfParse(buffer);
+//       const { default: pdfParse } = await import("pdf-parse");
+// const parsed                = await pdfParse(buffer);
+//       text = parsed.text;
+const parsed = await pdfParse(buffer);
+text = parsed.text;
     } else if (lower.endsWith(".docx") || lower.endsWith(".doc")) {
       const mammoth = eval("require")("mammoth") as {
         extractRawText: (opts: {

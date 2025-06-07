@@ -28,3 +28,8 @@ RUN npm install
 
 # Build the Next.js app
 RUN npm run build
+
+# Set the working directory to the output directory
+# Vercel expects the output in /vercel/output
+WORKDIR /app
+CMD ["npm", "start"]

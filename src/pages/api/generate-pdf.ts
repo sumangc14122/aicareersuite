@@ -559,18 +559,13 @@
 // }
 
 
-// src/pages/api/generate-pdf.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import ReactDOMServer from "react-dom/server";
 import React from "react";
 import fs from "fs";
 import path from "path";
-
-// In prod we use chrome-aws-lambda’s static build:
 import chromium from "@sparticuz/chromium";
-// In dev we’ll fall back to full Puppeteer if installed:
 import puppeteer from "puppeteer-core";
-
 import GenericTemplate, { TemplateID } from "@/components/GenericTemplate";
 import { ResumeJSON } from "@/components/ATSScore";
 
@@ -589,21 +584,22 @@ export default async function handler(
     templateId: TemplateID;
   };
   if (!resumeData || !templateId) {
+    console.error("Missing resumeData or templateId in request body");
     return res.status(400).json({ error: "Missing resumeData or templateId" });
   }
 
-  // 2) Inline your global CSS
+  // 2) Read and inline global CSS
   let globalCSS = "";
   try {
     const cssPath = path.resolve(process.cwd(), "src", "app", "globals.css");
+    console.log(`Reading CSS from: ${cssPath}`);
     globalCSS = fs.readFileSync(cssPath, "utf-8");
-  } catch {
-    return res
-      .status(500)
-      .json({ error: "Server CSS configuration error." });
+  } catch (err) {
+    console.error("Failed to read globals.css:", err);
+    return res.status(500).json({ error: "Server CSS configuration error." });
   }
 
-  // 3) Server-render your React template
+  // 3) Server-render React template
   let resumeHtmlContent: string;
   try {
     resumeHtmlContent = ReactDOMServer.renderToStaticMarkup(
@@ -613,21 +609,21 @@ export default async function handler(
       })
     );
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Unknown render error";
+    const message = err instanceof Error ? err.message : "Unknown render error";
     const stack = err instanceof Error ? err.stack : undefined;
+    console.error("Failed to render resume component:", err);
     return res.status(500).json({
       error: "Failed to render resume component.",
-      details: msg,
+      details: message,
       stack,
     });
   }
   if (!resumeHtmlContent) {
-    return res
-      .status(500)
-      .json({ error: "Rendered HTML content was empty." });
+    console.error("Rendered HTML content is empty");
+    return res.status(500).json({ error: "Rendered HTML content was empty." });
   }
 
-  // 4) Build a standalone HTML page
+  // 4) Build standalone HTML page
   const fullHtml = `
     <!DOCTYPE html>
     <html lang="en">
@@ -650,28 +646,37 @@ export default async function handler(
     const isDev = process.env.NODE_ENV === "development";
 
     if (isDev) {
-      // Locally: try full Puppeteer
+      // Local development: Use full puppeteer
       try {
-        // @ts-ignore
-        browser = await (await import("puppeteer")).launch({ headless: true });
-      } catch {
-        // Fallback to puppeteer-core + chrome-aws-lambda path
-        const execPath = await chromium.executablePath;
+        const puppeteerFull = await import("puppeteer");
+        browser = await puppeteerFull.default.launch({
+          headless: true,
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        });
+        console.log("Launched full Puppeteer for local development");
+      } catch (err) {
+        console.warn("Full Puppeteer not found, falling back to chrome-aws-lambda");
+        const execPath = await chromium.executablePath();
+        if (!execPath) {
+          throw new Error("Chromium executable path could not be determined.");
+        }
+        console.log("Local fallback Chromium path:", execPath);
         browser = await puppeteer.launch({
-          args: chromium.args,
+          args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
           defaultViewport: chromium.defaultViewport,
           executablePath: execPath,
           headless: chromium.headless,
         });
       }
     } else {
-      // Production: always use chrome-aws-lambda + puppeteer-core
-      const execPath = await chromium.executablePath;
+      // Production: Use chrome-aws-lambda + puppeteer-core
+      const execPath = await chromium.executablePath();
       if (!execPath) {
         throw new Error("Chromium executable path could not be determined.");
       }
+      console.log("Launching Chromium from:", execPath);
       browser = await puppeteer.launch({
-        args: chromium.args,
+        args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
         defaultViewport: chromium.defaultViewport,
         executablePath: execPath,
         headless: chromium.headless,
@@ -679,6 +684,7 @@ export default async function handler(
     }
 
     const page = await browser.newPage();
+    await page.setViewport({ width: 1280, height: 1024 });
     await page.setContent(fullHtml, { waitUntil: "networkidle0" });
     await page.emulateMediaType("print");
 
@@ -689,6 +695,7 @@ export default async function handler(
     });
 
     await browser.close();
+    browser = null;
 
     // 6) Stream back the PDF
     const safeName = (resumeData.personal?.fullName || "User")
@@ -701,18 +708,24 @@ export default async function handler(
       "Content-Disposition",
       `attachment; filename="${fileName}"`
     );
+    res.setHeader("Content-Length", pdfBuffer.length.toString());
     res.status(200).end(pdfBuffer);
   } catch (err) {
     if (browser) {
       try {
         await browser.close();
-      } catch {}
+      } catch (e) {
+        console.error("Error closing browser:", e);
+      }
     }
     console.error("❌ Puppeteer failed:", err);
-    const msg = err instanceof Error ? err.message : String(err);
-    res.status(500).json({
+    const message = err instanceof Error ? err.message : String(err);
+    const stack = err instanceof Error ? err.stack : undefined;
+    return res.status(500).json({
       error: "Puppeteer failed to generate PDF.",
-      details: msg,
+      details: message,
+      stack,
     });
   }
 }
+

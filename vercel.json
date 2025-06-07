@@ -1,0 +1,12 @@
+
+{
+    "functions": {
+      "src/pages/api/generate-pdf.ts": {
+        "maxDuration": 30
+      }
+    },
+    "regions": ["iad1"],
+    "env": {
+      "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true"
+    }
+  }

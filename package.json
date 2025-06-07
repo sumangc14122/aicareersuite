@@ -11,7 +11,8 @@
     "lint:fix": "next lint --fix",
     "postinstall": "prisma generate",
     "build:no-lint": "next build",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "vercel-build": "apt-get update && apt-get install -y libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2 fonts-liberation libappindicator3-1 libxss1 libxtst6 && npm run build"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.2.1",

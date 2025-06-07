@@ -545,7 +545,9 @@ export default async function handler(
     if (browser) {
       try {
         await browser.close();
-      } catch {}
+      } catch  (e) {
+        console.log(e)
+      }
     }
     console.error("❌ Puppeteer failed:", err);
     const message = err instanceof Error ? err.message : String(err);

@@ -426,7 +426,7 @@ const NAV_GROUPS_MOBILE = [
 ];
 
 const PROFILE_ACTION_ITEMS_MOBILE = [
-  { label: "Settings", href: "/profile/create", icon: Settings },
+  { label: "Create Profile", href: "/profile/create", icon: Settings },
   { label: "View Profile", href: "/profile/:userId", icon: User },
   { label: "Create Post", href: "/profile/posts/create", icon: MessageSquare },
 ];

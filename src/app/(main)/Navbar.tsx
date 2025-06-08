@@ -1029,7 +1029,7 @@ const TOP_LEVEL_NAV_CONFIG: TopLevelNavItemConfig[] = [
 ];
 
 const PROFILE_DROPDOWN_ITEMS = [
-  { label: "Settings", href: "/profile/create", icon: Settings },
+  { label: "Create Profile", href: "/profile/create", icon: Settings },
   { label: "View Profile", href: "/profile/:userId", icon: User },
   { label: "Create Post", href: "/profile/posts/create", icon: MessageSquare },
 ];

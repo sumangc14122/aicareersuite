@@ -559,13 +559,16 @@
 // }
 
 
+
+
+// src/pages/api/generate-pdf.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import ReactDOMServer from "react-dom/server";
 import React from "react";
 import fs from "fs";
 import path from "path";
 import chromium from "@sparticuz/chromium";
-import puppeteer from "puppeteer-core";
+import puppeteer from "puppeteer-core"; // No need for extra type import here if not directly using LaunchOptions type
 import GenericTemplate, { TemplateID } from "@/components/GenericTemplate";
 import { ResumeJSON } from "@/components/ATSScore";
 
@@ -578,7 +581,6 @@ export default async function handler(
     return res.status(405).end("Method Not Allowed");
   }
 
-  // 1) Parse payload
   const { resumeData, templateId } = req.body as {
     resumeData: ResumeJSON;
     templateId: TemplateID;
@@ -588,7 +590,6 @@ export default async function handler(
     return res.status(400).json({ error: "Missing resumeData or templateId" });
   }
 
-  // 2) Read and inline global CSS
   let globalCSS = "";
   try {
     const cssPath = path.resolve(process.cwd(), "src", "app", "globals.css");
@@ -599,7 +600,6 @@ export default async function handler(
     return res.status(500).json({ error: "Server CSS configuration error." });
   }
 
-  // 3) Server-render React template
   let resumeHtmlContent: string;
   try {
     resumeHtmlContent = ReactDOMServer.renderToStaticMarkup(
@@ -623,7 +623,6 @@ export default async function handler(
     return res.status(500).json({ error: "Rendered HTML content was empty." });
   }
 
-  // 4) Build standalone HTML page
   const fullHtml = `
     <!DOCTYPE html>
     <html lang="en">
@@ -640,44 +639,79 @@ export default async function handler(
     </html>
   `;
 
-  // 5) Launch headless Chrome
   let browser = null;
   try {
     let execPath: string;
+
+    let headlessMode: boolean | "shell" | undefined;
+    if (typeof chromium.headless === 'string') {
+      if (chromium.headless.toLowerCase() === 'true' || chromium.headless.toLowerCase() === 'new') {
+        headlessMode = "shell";
+      } else if (chromium.headless.toLowerCase() === 'false') {
+        headlessMode = false;
+      } else if (chromium.headless === "shell") {
+        headlessMode = "shell";
+      } else {
+        console.warn(`Unknown string value for chromium.headless: "${chromium.headless}". Defaulting to "shell".`);
+        headlessMode = "shell";
+      }
+    } else if (typeof chromium.headless === 'boolean') {
+      headlessMode = chromium.headless;
+    } else {
+      headlessMode = "shell"; // Default
+    }
+
+
     if (process.env.NODE_ENV === "development") {
       try {
-        const puppeteerFull = await import("puppeteer");
-        browser = await puppeteerFull.default.launch({
-          headless: true,
+        const puppeteerFullModule = await import("puppeteer");
+        // Access the launch function, usually on default or the module itself
+        const launchFn = puppeteerFullModule.default?.launch || puppeteerFullModule.launch;
+        if (!launchFn) throw new Error("Puppeteer 'launch' function not found in the imported module.");
+
+        browser = await launchFn({ // Use the resolved launch function
+          headless: "shell",
           args: ["--no-sandbox", "--disable-setuid-sandbox"],
         });
         console.log("Launched full Puppeteer for local development");
       } catch (err) {
-        console.warn("Full Puppeteer not found, falling back to chrome-aws-lambda");
+        console.warn(
+          "Full Puppeteer not found or failed, falling back to @sparticuz/chromium for dev:",
+          err // Log the actual error for more insight
+        );
         execPath = await chromium.executablePath();
         if (!execPath) {
-          throw new Error("Chromium executable path could not be determined.");
+          throw new Error(
+            "Chromium executable path could not be determined for dev fallback."
+          );
         }
-        console.log("Local fallback Chromium path:", execPath);
+        console.log("Local dev fallback, Chromium path:", execPath);
         browser = await puppeteer.launch({
           args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
           defaultViewport: chromium.defaultViewport,
           executablePath: execPath,
-          headless: chromium.headless,
+          headless: headlessMode,
         });
       }
     } else {
+      // Production
       execPath = await chromium.executablePath();
       if (!execPath) {
-        throw new Error("Chromium executable path could not be determined.");
+        throw new Error(
+          "Chromium executable path could not be determined in production."
+        );
       }
-      console.log("Launching Chromium from:", execPath);
+      console.log("Launching Chromium from (production):", execPath);
       browser = await puppeteer.launch({
         args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
         defaultViewport: chromium.defaultViewport,
         executablePath: execPath,
-        headless: chromium.headless,
+        headless: headlessMode,
       });
+    }
+
+    if (!browser) {
+        throw new Error("Browser could not be launched.");
     }
 
     const page = await browser.newPage();
@@ -694,7 +728,6 @@ export default async function handler(
     await browser.close();
     browser = null;
 
-    // 6) Stream back the PDF
     const safeName = (resumeData.personal?.fullName || "User")
       .trim()
       .replace(/\s+/g, "_");
@@ -712,7 +745,7 @@ export default async function handler(
       try {
         await browser.close();
       } catch (e) {
-        console.error("Error closing browser:", e);
+        console.error("Error closing browser after failure:", e);
       }
     }
     console.error("❌ Puppeteer failed:", err);
@@ -725,4 +758,3 @@ export default async function handler(
     });
   }
 }
-

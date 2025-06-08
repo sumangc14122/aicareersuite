@@ -2887,7 +2887,7 @@ export default function HomeContent() {
                   ))}
                 </div>
                 <p className="text-md mb-5 flex-grow italic leading-relaxed text-gray-700 dark:text-gray-300">
-                  "{testimonial.quote}"
+                &quot;{testimonial.quote}&quot;
                 </p>
                 <div className="mt-auto flex items-center border-t border-gray-200 pt-4 dark:border-gray-700/50">
                   <User className="mr-3 h-10 w-10 rounded-full bg-gray-200 p-2 text-gray-500 dark:bg-gray-700 dark:text-gray-400" />
@@ -3172,7 +3172,7 @@ export default function HomeContent() {
             <div className="container mx-auto flex flex-col items-center justify-between gap-3 sm:gap-4 md:flex-row">
               <p className="flex-grow text-center text-sm leading-relaxed text-slate-300 dark:text-slate-400 md:text-left">
                 🍪 We use cookies to enhance your experience and for analytics.
-                By clicking "Accept All", you consent to our use of
+                By clicking &quot;Accept All&quot;, you consent to our use of
                 cookies. Learn more in our{" "}
                 <Link
                   href="/legal/privacy-policy"

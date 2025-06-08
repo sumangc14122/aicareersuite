@@ -643,40 +643,37 @@ export default async function handler(
   // 5) Launch headless Chrome
   let browser = null;
   try {
-    const isDev = process.env.NODE_ENV === "development";
-
-    if (isDev) {
-      // Local development: Use full puppeteer
+    let execPath: string;
+    if (process.env.NODE_ENV === "development") {
       try {
         const puppeteerFull = await import("puppeteer");
         browser = await puppeteerFull.default.launch({
           headless: true,
-          args: ['--no-sandbox', '--disable-setuid-sandbox'],
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
         });
         console.log("Launched full Puppeteer for local development");
       } catch (err) {
         console.warn("Full Puppeteer not found, falling back to chrome-aws-lambda");
-        const execPath = await chromium.executablePath();
+        execPath = await chromium.executablePath();
         if (!execPath) {
           throw new Error("Chromium executable path could not be determined.");
         }
         console.log("Local fallback Chromium path:", execPath);
         browser = await puppeteer.launch({
-          args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+          args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
           defaultViewport: chromium.defaultViewport,
           executablePath: execPath,
           headless: chromium.headless,
         });
       }
     } else {
-      // Production: Use chrome-aws-lambda + puppeteer-core
-      const execPath = await chromium.executablePath();
+      execPath = await chromium.executablePath();
       if (!execPath) {
         throw new Error("Chromium executable path could not be determined.");
       }
       console.log("Launching Chromium from:", execPath);
       browser = await puppeteer.launch({
-        args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+        args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
         defaultViewport: chromium.defaultViewport,
         executablePath: execPath,
         headless: chromium.headless,

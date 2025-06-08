@@ -255,30 +255,77 @@ export default function ResumeWizard() {
       showcaseSections: [],
     });
 
-  const handleProceedToPortfolioEditor = async () => {
-    if (!aiNarrativeData?.careerNarrative) {
-      alert(
-        "Please launch the AI Career Narrative Suite and generate your narrative insights first. These insights are essential for building your portfolio.",
-      );
-      // Optionally, you could auto-launch it here if it's not a disruptive UX:
-      // setShowNarrativeWeaver(true);
-      return;
-    }
-    setLoading(true); // Use a general loading state for this action
-    setSaveMessage("Finalizing your resume draft...");
-    const currentDraftId = await saveResumeDraft(); // saveResumeDraft saves resume + AI data
-    setLoading(false);
+  // const handleProceedToPortfolioEditor = async () => {
+  //   if (!aiNarrativeData?.careerNarrative) {
+  //     alert(
+  //       "Please launch the AI Career Narrative Suite and generate your narrative insights first. These insights are essential for building your portfolio.",
+  //     );
+  //     // Optionally, you could auto-launch it here if it's not a disruptive UX:
+  //     // setShowNarrativeWeaver(true);
+  //     return;
+  //   }
+  //   setLoading(true); // Use a general loading state for this action
+  //   setSaveMessage("Finalizing your resume draft...");
+  //   const currentDraftId = await saveResumeDraft(); // saveResumeDraft saves resume + AI data
+  //   setLoading(false);
 
-    if (currentDraftId) {
-      setSaveMessage(null); // Clear saving message
-      // router.push(`/portfolio-editor/${currentDraftId}`); // Navigate to the new editor page
-      router.push(`/portfolio-editor/new?draftId=${currentDraftId}`); // Use this new route structure
+  //   if (currentDraftId) {
+  //     setSaveMessage(null); // Clear saving message
+  //     // router.push(`/portfolio-editor/${currentDraftId}`); // Navigate to the new editor page
+  //     router.push(`/portfolio-editor/new?draftId=${currentDraftId}`); // Use this new route structure
+  //   } else {
+  //     // saveResumeDraft would have set an error message in the saveMessage state
+  //     // No need for an extra alert here if saveMessage is displayed.
+  //     // alert("Failed to save the resume draft. Cannot proceed to portfolio customization. Please check messages.");
+  //   }
+  // };
+
+
+  // Make sure you have this import if you still use router for other things,
+
+const handleProceedToPortfolioEditor = async () => {
+  if (!aiNarrativeData?.careerNarrative) {
+    alert(
+      "Please launch the AI Career Narrative Suite and generate your narrative insights first. These insights are essential for building your portfolio.",
+    );
+    return;
+  }
+  setLoading(true);
+  setSaveMessage("Finalizing your resume draft...");
+
+  const currentDraftId = await saveResumeDraft(); // saveResumeDraft saves resume + AI data
+  setLoading(false);
+
+  if (currentDraftId) {
+    setSaveMessage(null); // Clear saving message
+
+    const portfolioEditorUrl = `/portfolio-editor/new?draftId=${currentDraftId}`;
+
+    // --- MODIFICATION START ---
+    // Open the URL in a new window/tab
+    const newWindow = window.open(portfolioEditorUrl, '_blank', 'noopener,noreferrer');
+
+    if (newWindow) {
+      newWindow.focus(); // Optional: attempt to bring the new window to the front
     } else {
-      // saveResumeDraft would have set an error message in the saveMessage state
-      // No need for an extra alert here if saveMessage is displayed.
-      // alert("Failed to save the resume draft. Cannot proceed to portfolio customization. Please check messages.");
+      // Fallback or error message if the popup was blocked
+      alert(
+        "The portfolio editor tried to open in a new window, but it might have been blocked by your browser. Please check your popup blocker settings. The URL is: " +
+        portfolioEditorUrl
+      );
+      // As a fallback, you might want to navigate in the current window if the popup fails
+      // router.push(portfolioEditorUrl); 
+      // Or simply do nothing further and let the user handle it with the alert message.
     }
-  };
+    // --- MODIFICATION END ---
+
+  } else {
+    // saveResumeDraft would have set an error message in the saveMessage state
+    // No need for an extra alert here if saveMessage is displayed.
+    // console.error("Failed to save the resume draft. Cannot proceed to portfolio customization.");
+    // The saveMessage state should provide feedback.
+  }
+};
 
   // Effect to update portfolio title when resume name changes
   useEffect(() => {

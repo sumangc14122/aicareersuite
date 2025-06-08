@@ -594,7 +594,7 @@ export default function NarrativeWeaver({
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
-  }, [isLoading, loadingMessages]); // Only depend on isLoading
+  }, [isLoading]); // Only depend on isLoading
 
   // const loadingMessages = [
   //   "Weaving your unique career threads...",

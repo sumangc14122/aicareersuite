@@ -42,6 +42,16 @@ export default function RootLayout({
               gtag('config', 'G-N3B99NNZ3C');
             `}
           </Script>
+
+<Script async src="https://www.googletagmanager.com/gtag/js?id=AW-17044519731">
+</Script>
+<Script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17044519731');
+</Script>
           <Script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1093044909932327"

@@ -45,12 +45,13 @@ export default function RootLayout({
 
 <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-17044519731">
 </Script>
-<Script>
+<Script>{`
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'AW-17044519731');
+`}
 </Script>
           <Script
             async

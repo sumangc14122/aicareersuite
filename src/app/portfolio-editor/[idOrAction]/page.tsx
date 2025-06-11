@@ -4883,7 +4883,7 @@ export default function PortfolioEditorPage() {
       isCancelled = true;
       clearTimeout(timer);
     };
-  }, [portfolioSettings?.slug,originalSlug]);
+  }, [portfolioSettings?.slug, originalSlug]);
 
   // ===== Helper to update top‐level and displaySettings fields =====
   const handleSettingChange = (

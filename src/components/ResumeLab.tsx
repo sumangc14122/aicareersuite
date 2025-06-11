@@ -567,7 +567,7 @@ export default function ResumeLab() {
         setRect(r);
         return;
       } catch (e) {
-      console.error(e);
+        console.error(e);
       }
     }
     setSelection("");

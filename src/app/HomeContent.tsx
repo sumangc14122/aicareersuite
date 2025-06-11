@@ -2235,7 +2235,6 @@
 //   );
 // }
 
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -2661,7 +2660,8 @@ export default function HomeContent() {
             <Award className="mx-auto mb-5 h-12 w-12 text-blue-600 dark:text-blue-400 sm:h-14 sm:w-14" />
           </motion.div>
           <motion.h1
-            variants={heroItemVariants} custom={1}
+            variants={heroItemVariants}
+            custom={1}
             className="mb-6 text-4xl font-extrabold !leading-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl"
           >
             Build Your Dream Career, <br className="hidden sm:block" />
@@ -2670,7 +2670,8 @@ export default function HomeContent() {
             </span>
           </motion.h1>
           <motion.p
-            variants={heroItemVariants} custom={2}
+            variants={heroItemVariants}
+            custom={2}
             className="mx-auto mb-10 max-w-2xl text-lg text-gray-600 dark:text-gray-300 md:text-xl"
           >
             Leverage cutting-edge AI to craft perfect resumes, ace interviews,
@@ -2678,7 +2679,8 @@ export default function HomeContent() {
             completely free.
           </motion.p>
           <motion.div
-            variants={heroItemVariants} custom={3}
+            variants={heroItemVariants}
+            custom={3}
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Link href={primaryCtaLink}>
@@ -2704,10 +2706,13 @@ export default function HomeContent() {
         </div>
         {/* Scroll Down Indicator */}
         <motion.div
-          variants={heroItemVariants} custom={4}
+          variants={heroItemVariants}
+          custom={4}
           className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 transform cursor-pointer sm:bottom-8 md:bottom-10"
           onClick={() => {
-            document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+            document
+              .getElementById("how-it-works")
+              ?.scrollIntoView({ behavior: "smooth" });
           }}
           title="Scroll down for more"
         >
@@ -2887,7 +2892,7 @@ export default function HomeContent() {
                   ))}
                 </div>
                 <p className="text-md mb-5 flex-grow italic leading-relaxed text-gray-700 dark:text-gray-300">
-                &quot;{testimonial.quote}&quot;
+                  &quot;{testimonial.quote}&quot;
                 </p>
                 <div className="mt-auto flex items-center border-t border-gray-200 pt-4 dark:border-gray-700/50">
                   <User className="mr-3 h-10 w-10 rounded-full bg-gray-200 p-2 text-gray-500 dark:bg-gray-700 dark:text-gray-400" />

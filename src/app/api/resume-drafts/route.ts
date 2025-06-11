@@ -565,8 +565,6 @@
 // //   }
 // // }
 
-
-
 // src/app/api/resume-drafts/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
@@ -639,13 +637,13 @@ export async function POST(req: NextRequest) {
   if (!clerkUserId) {
     return NextResponse.json(
       { error: "Unauthorized: User not authenticated." },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
   try {
     const payload = ResumeDraftPayloadSchema.parse(
-      await req.json()
+      await req.json(),
     ) as ResumeDraftPayload;
 
     // Find or create the user's profile
@@ -654,7 +652,7 @@ export async function POST(req: NextRequest) {
     });
     if (!profile) {
       console.warn(
-        `Profile not found for userId: ${clerkUserId}. Creating a default profile.`
+        `Profile not found for userId: ${clerkUserId}. Creating a default profile.`,
       );
       profile = await prisma.profile.create({
         data: {
@@ -676,7 +674,7 @@ export async function POST(req: NextRequest) {
     // };
 
     const safeJsonValue = (
-      value: InputJsonValue | null | undefined
+      value: InputJsonValue | null | undefined,
     ): Prisma.InputJsonValue | typeof Prisma.JsonNull | undefined => {
       if (value === null) return Prisma.JsonNull;
       if (value === undefined) return undefined;
@@ -685,10 +683,10 @@ export async function POST(req: NextRequest) {
 
     // Helpers for strings/arrays
     const safeStringValue = (
-      value: string | null | undefined
+      value: string | null | undefined,
     ): string | null | undefined => value;
     const safeStringArrayValue = (
-      value: string[] | null | undefined
+      value: string[] | null | undefined,
     ): string[] => value ?? [];
 
     // Create the new ResumeDraft
@@ -705,9 +703,7 @@ export async function POST(req: NextRequest) {
         wizardPersonalData: safeJsonValue(payload.wizardPersonalData),
         wizardSummary: safeStringValue(payload.wizardSummary),
         wizardSkills: safeStringArrayValue(payload.wizardSkills),
-        wizardWorkExperiences: safeJsonValue(
-          payload.wizardWorkExperiences
-        ),
+        wizardWorkExperiences: safeJsonValue(payload.wizardWorkExperiences),
         wizardEducations: safeJsonValue(payload.wizardEducations),
         wizardVolunteering: safeJsonValue(payload.wizardVolunteering),
         wizardCertifications: safeJsonValue(payload.wizardCertifications),
@@ -715,13 +711,9 @@ export async function POST(req: NextRequest) {
 
         aiCareerNarrative: safeStringValue(payload.aiCareerNarrative),
         aiGoldenThread: safeStringValue(payload.aiGoldenThread),
-        aiGoldenThreadEvidence: safeJsonValue(
-          payload.aiGoldenThreadEvidence
-        ),
+        aiGoldenThreadEvidence: safeJsonValue(payload.aiGoldenThreadEvidence),
         aiKeyThemes: safeJsonValue(payload.aiKeyThemes),
-        aiHiddenGemsResultJson: safeJsonValue(
-          payload.aiHiddenGemsResultJson
-        ),
+        aiHiddenGemsResultJson: safeJsonValue(payload.aiHiddenGemsResultJson),
         aiWeavingSuggestions: safeJsonValue(payload.aiWeavingSuggestions),
         aiWhatIfStarters: safeJsonValue(payload.aiWhatIfStarters),
         aiWhatIfResultsCache: safeJsonValue(payload.aiWhatIfResultsCache),
@@ -733,7 +725,7 @@ export async function POST(req: NextRequest) {
         message: "Resume draft created successfully!",
         id: newDraft.id,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error: unknown) {
     console.error("Error creating resume draft:", error);
@@ -742,7 +734,7 @@ export async function POST(req: NextRequest) {
         error: "Failed to create resume draft.",
         details: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

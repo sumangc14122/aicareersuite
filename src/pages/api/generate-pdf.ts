@@ -402,8 +402,6 @@
 // //   }
 // // }
 
-
-
 // // src/pages/api/generate-pdf.ts
 // import type { NextApiRequest, NextApiResponse } from "next";
 // import ReactDOMServer from "react-dom/server";
@@ -558,9 +556,6 @@
 //   }
 // }
 
-
-
-
 // src/pages/api/generate-pdf.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import ReactDOMServer from "react-dom/server";
@@ -574,7 +569,7 @@ import { ResumeJSON } from "@/components/ATSScore";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -606,7 +601,7 @@ export default async function handler(
       React.createElement(GenericTemplate, {
         data: resumeData,
         templateId,
-      })
+      }),
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown render error";
@@ -644,32 +639,41 @@ export default async function handler(
     let execPath: string;
 
     let headlessMode: boolean | "shell" | undefined;
-    if (typeof chromium.headless === 'string') {
-      if (chromium.headless.toLowerCase() === 'true' || chromium.headless.toLowerCase() === 'new') {
+    if (typeof chromium.headless === "string") {
+      if (
+        chromium.headless.toLowerCase() === "true" ||
+        chromium.headless.toLowerCase() === "new"
+      ) {
         headlessMode = "shell";
-      } else if (chromium.headless.toLowerCase() === 'false') {
+      } else if (chromium.headless.toLowerCase() === "false") {
         headlessMode = false;
       } else if (chromium.headless === "shell") {
         headlessMode = "shell";
       } else {
-        console.warn(`Unknown string value for chromium.headless: "${chromium.headless}". Defaulting to "shell".`);
+        console.warn(
+          `Unknown string value for chromium.headless: "${chromium.headless}". Defaulting to "shell".`,
+        );
         headlessMode = "shell";
       }
-    } else if (typeof chromium.headless === 'boolean') {
+    } else if (typeof chromium.headless === "boolean") {
       headlessMode = chromium.headless;
     } else {
       headlessMode = "shell"; // Default
     }
 
-
     if (process.env.NODE_ENV === "development") {
       try {
         const puppeteerFullModule = await import("puppeteer");
         // Access the launch function, usually on default or the module itself
-        const launchFn = puppeteerFullModule.default?.launch || puppeteerFullModule.launch;
-        if (!launchFn) throw new Error("Puppeteer 'launch' function not found in the imported module.");
+        const launchFn =
+          puppeteerFullModule.default?.launch || puppeteerFullModule.launch;
+        if (!launchFn)
+          throw new Error(
+            "Puppeteer 'launch' function not found in the imported module.",
+          );
 
-        browser = await launchFn({ // Use the resolved launch function
+        browser = await launchFn({
+          // Use the resolved launch function
           headless: "shell",
           args: ["--no-sandbox", "--disable-setuid-sandbox"],
         });
@@ -677,12 +681,12 @@ export default async function handler(
       } catch (err) {
         console.warn(
           "Full Puppeteer not found or failed, falling back to @sparticuz/chromium for dev:",
-          err // Log the actual error for more insight
+          err, // Log the actual error for more insight
         );
         execPath = await chromium.executablePath();
         if (!execPath) {
           throw new Error(
-            "Chromium executable path could not be determined for dev fallback."
+            "Chromium executable path could not be determined for dev fallback.",
           );
         }
         console.log("Local dev fallback, Chromium path:", execPath);
@@ -698,7 +702,7 @@ export default async function handler(
       execPath = await chromium.executablePath();
       if (!execPath) {
         throw new Error(
-          "Chromium executable path could not be determined in production."
+          "Chromium executable path could not be determined in production.",
         );
       }
       console.log("Launching Chromium from (production):", execPath);
@@ -711,7 +715,7 @@ export default async function handler(
     }
 
     if (!browser) {
-        throw new Error("Browser could not be launched.");
+      throw new Error("Browser could not be launched.");
     }
 
     const page = await browser.newPage();
@@ -734,10 +738,7 @@ export default async function handler(
     const fileName = `Resume_${safeName}_${templateId}.pdf`;
 
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${fileName}"`
-    );
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
     res.setHeader("Content-Length", pdfBuffer.length.toString());
     res.status(200).end(pdfBuffer);
   } catch (err) {

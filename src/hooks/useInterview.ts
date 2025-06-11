@@ -1582,7 +1582,6 @@
 //   };
 // }
 
-
 import { useState, useRef, useEffect, useCallback } from "react";
 
 // —————————————————————————————
@@ -1592,9 +1591,18 @@ type SpeechRecognitionConstructor = new () => SpeechRecognitionInstance;
 interface SpeechRecognitionInstance {
   lang: string;
   continuous: boolean;
-  onresult: ((this: SpeechRecognitionInstance, ev: SpeechRecognitionEvent) => void) | null;
-  onend: ((this: SpeechRecognitionInstance, ev: SpeechRecognitionEvent) => void) | null;
-  onerror: ((this: SpeechRecognitionInstance, ev: SpeechRecognitionErrorEvent) => void) | null;
+  onresult:
+    | ((this: SpeechRecognitionInstance, ev: SpeechRecognitionEvent) => void)
+    | null;
+  onend:
+    | ((this: SpeechRecognitionInstance, ev: SpeechRecognitionEvent) => void)
+    | null;
+  onerror:
+    | ((
+        this: SpeechRecognitionInstance,
+        ev: SpeechRecognitionErrorEvent,
+      ) => void)
+    | null;
   start(): void;
   stop(): void;
 }
@@ -1682,12 +1690,18 @@ export function useInterview() {
   const [questionNumber, setQuestionNumber] = useState<number>(1);
   const [careerConfidenceScore, setCareerConfidenceScore] = useState<number>(0);
   const [totalScore, setTotalScore] = useState<number>(0);
-  const [feedbackSections, setFeedbackSections] = useState<FeedbackSections | null>(null);
+  const [feedbackSections, setFeedbackSections] =
+    useState<FeedbackSections | null>(null);
   const [transcript, setTranscript] = useState<string>("");
   const [typedAnswer, setTypedAnswer] = useState<string>("");
   const [listening, setListening] = useState<boolean>(false);
-  const [audioFeedbackEnabled, setAudioFeedbackEnabled] = useState<boolean>(true);
-  const [eqMetrics, setEQMetrics] = useState<EQMetrics>({ confidence: 0, enthusiasm: 0, empathy: 0 });
+  const [audioFeedbackEnabled, setAudioFeedbackEnabled] =
+    useState<boolean>(true);
+  const [eqMetrics, setEQMetrics] = useState<EQMetrics>({
+    confidence: 0,
+    enthusiasm: 0,
+    empathy: 0,
+  });
   const [isAIAnswer, setIsAIAnswer] = useState<boolean>(false);
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
   const [hint, setHint] = useState<string | null>(null);
@@ -1775,7 +1789,17 @@ export function useInterview() {
       body: JSON.stringify({ ...details, question, transcript: answerText }),
     });
     const data = (await res.json()) as FeedbackResponse;
-    const { situation, task, action, result, suggestions, score, eq, competencies: comp, isAIAnswer: aiFlag } = data;
+    const {
+      situation,
+      task,
+      action,
+      result,
+      suggestions,
+      score,
+      eq,
+      competencies: comp,
+      isAIAnswer: aiFlag,
+    } = data;
 
     setFeedbackSections({ situation, task, action, result, suggestions });
     setCareerConfidenceScore(score);
@@ -1785,9 +1809,13 @@ export function useInterview() {
     setCompetencies(comp);
     setIsEvaluating(false);
 
-    const low = result.toLowerCase().includes("not") || result.toLowerCase().includes("unclear");
+    const low =
+      result.toLowerCase().includes("not") ||
+      result.toLowerCase().includes("unclear");
     if (low) {
-      setFollowUpQuestion("Can you elaborate on the outcome or results of that situation?");
+      setFollowUpQuestion(
+        "Can you elaborate on the outcome or results of that situation?",
+      );
       setFollowUpActive(true);
     } else {
       setFollowUpActive(false);
@@ -1859,7 +1887,10 @@ export function useInterview() {
   function shareTotalScore() {
     const url = window.location.href;
     const text = `I scored ${totalScore}/500 on AI Interview Simulator! Try it: ${url}`;
-    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, "_blank");
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
+      "_blank",
+    );
   }
 
   function copySession() {

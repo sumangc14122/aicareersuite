@@ -25,7 +25,6 @@
 // //   );
 // // }
 
-
 // // src/components/ShareProfileButton.tsx
 // import React from "react";
 
@@ -56,8 +55,6 @@
 //   );
 // }
 
-
-
 // src/components/ShareProfileButton.tsx
 "use client";
 
@@ -80,9 +77,7 @@ export default function ShareProfileButton({
       ? `${window.location.origin}/profile/${profileId}`
       : window.location.href;
 
-    const title = profileName
-      ? `${profileName}'s Profile`
-      : document.title;
+    const title = profileName ? `${profileName}'s Profile` : document.title;
 
     try {
       if (navigator.share) {

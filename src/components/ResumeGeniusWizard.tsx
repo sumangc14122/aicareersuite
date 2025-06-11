@@ -246,8 +246,6 @@
 //   );
 // }
 
-
-
 "use client";
 
 import React, { useState } from "react";
@@ -307,7 +305,7 @@ export default function ResumeGeniusWizard() {
   async function handleParse(type: ParseType, payload: ParsePayload) {
     const resp = await axios.post<{ text: string }>(
       "/api/genius-resume/parse",
-      { type, ...payload }
+      { type, ...payload },
     );
     setRawText(resp.data.text);
   }
@@ -315,7 +313,7 @@ export default function ResumeGeniusWizard() {
   async function handleVoice(audioBase64: string) {
     const resp = await axios.post<{ transcript: string }>(
       "/api/genius-resume/voice",
-      { audioBase64 }
+      { audioBase64 },
     );
     setTranscript(resp.data.transcript);
   }
@@ -323,7 +321,7 @@ export default function ResumeGeniusWizard() {
   async function handleGenerate() {
     const resp = await axios.post<{ resume: ResumeResult }>(
       "/api/genius-resume/generate",
-      { rawText, transcript, jobUrl, skills, meta }
+      { rawText, transcript, jobUrl, skills, meta },
     );
     setResume(resp.data.resume);
     setStep(6);
@@ -360,7 +358,7 @@ export default function ResumeGeniusWizard() {
             >
               {label}
             </div>
-          )
+          ),
         )}
       </div>
 
@@ -470,7 +468,7 @@ export default function ResumeGeniusWizard() {
                   setSkills(
                     skills.includes(skill)
                       ? skills.filter((s) => s !== skill)
-                      : [...skills, skill]
+                      : [...skills, skill],
                   )
                 }
               >

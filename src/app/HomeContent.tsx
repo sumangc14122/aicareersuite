@@ -2486,7 +2486,7 @@ const SimpleNavbar = ({ isSignedIn }: { isSignedIn: boolean | undefined }) => {
             More Tools
           </Link>
           {isSignedIn ? (
-            <Link href="/resumes">
+            <Link href="/wizard">
               <Button
                 className="ml-2 bg-blue-600 px-4 text-white shadow-sm transition-all hover:bg-blue-700 hover:shadow-md dark:bg-blue-500 dark:hover:bg-blue-600"
                 size="sm"
@@ -2553,7 +2553,7 @@ const SimpleNavbar = ({ isSignedIn }: { isSignedIn: boolean | undefined }) => {
               <div className="space-y-2 pt-3">
                 {isSignedIn ? (
                   <Link
-                    href="/resumes"
+                    href="/wizard"
                     className="block"
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -2619,7 +2619,7 @@ export default function HomeContent() {
   const toggleFaq = (index: number) =>
     setOpenFaqIndex(openFaqIndex === index ? null : index);
 
-  const primaryCtaLink = isSignedIn ? "/resumes" : "/sign-up";
+  const primaryCtaLink = isSignedIn ? "/wizard" : "/sign-up";
   const primaryCtaText = isSignedIn
     ? "Go to Your Dashboard"
     : "Get Started Free";

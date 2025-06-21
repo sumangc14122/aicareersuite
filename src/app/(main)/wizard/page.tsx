@@ -3231,7 +3231,7 @@ export default function ResumeWizard() {
   };
 
   return (
-    <div className="mx-auto min-h-screen max-w-5xl bg-slate-100 p-4 font-sans sm:p-6">
+    <div className="mx-auto min-h-screen w-full max-w-5xl bg-slate-100 p-4 font-sans sm:p-6">
       <header className="my-8 text-center sm:my-12">
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-800 sm:text-5xl">
           Resume <span className="text-blue-600">Wizard</span> Pro
@@ -3257,8 +3257,8 @@ function ProgressBar({ step }: { step: number }) {
   const icons = ["👤", "📄", "🎯", "🚀", "✨"];
 
   return (
-    <div className="mb-10 flex items-center justify-center overflow-x-auto rounded-xl bg-white p-4 shadow-lg sm:mb-12 sm:p-5">
-      <div className="flex items-center">
+    <div className="mb-10 flex items-center justify-center rounded-xl bg-white p-4 shadow-lg sm:mb-12 sm:p-5">
+      <div className="flex items-center overflow-x-auto p-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {labels.map((label, i) => (
           <React.Fragment key={i}>
             <div className="mx-1 flex flex-col items-center text-center sm:mx-2">

@@ -2108,8 +2108,8 @@ export default function JobTracker() {
         transition={{ duration: 0.5 }}
         className="mx-auto max-w-7xl"
       >
-        {/* Sticky Header */}
-        <div className="sticky top-0 z-10 mb-6 flex items-center justify-between bg-white p-4 shadow-md">
+        {/*updated: position-relative -> Sticky Header */}
+        <div className="relative top-0 z-10 mb-6 flex items-center justify-between bg-white p-4 shadow-md">
           <div className="flex items-center gap-4">
             <svg
               className="h-10 w-10 text-indigo-600"

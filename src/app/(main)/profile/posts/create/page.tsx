@@ -260,7 +260,7 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="mx-auto max-w-lg py-8">
+    <div className="flex w-full flex-col items-center justify-center py-8">
       <h1 className="mb-4 text-2xl font-bold">
         {type === "SUCCESS" ? "Share a Success Story" : "Write a Blog Post"}
       </h1>
@@ -269,7 +269,10 @@ export default function CreatePostPage() {
         <div className="mb-4 rounded bg-red-100 p-2 text-red-800">{error}</div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full space-y-4 p-8 md:w-1/2 lg:w-2/5"
+      >
         {/* Type selector */}
         <label className="block">
           <span className="font-medium">Post type</span>

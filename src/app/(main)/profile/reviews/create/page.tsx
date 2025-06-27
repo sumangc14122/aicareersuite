@@ -47,8 +47,10 @@ export default function CreateReviewRequestPage() {
   };
 
   return (
-    <div className="mx-auto max-w-lg py-8">
-      <h1 className="mb-4 text-2xl font-bold">Request Resume Review</h1>
+    <div className="mx-auto max-w-lg px-4 py-8">
+      <h1 className="mb-4 text-left text-2xl font-bold md:text-center">
+        Request Resume Review
+      </h1>
       {error && (
         <div className="mb-4 rounded-md bg-red-100 p-2 text-red-800">
           {error}

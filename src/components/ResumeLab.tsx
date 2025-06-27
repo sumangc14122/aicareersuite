@@ -711,7 +711,7 @@ export default function ResumeLab() {
   return (
     <>
       {/* Download / Print */}
-      <div className="mb-2 flex justify-end">
+      <div className="mb-2 flex justify-center md:justify-end">
         <button
           onClick={() => window.print()}
           className="rounded bg-green-600 px-3 py-1 text-xs text-white"
@@ -720,9 +720,9 @@ export default function ResumeLab() {
         </button>
       </div>
 
-      <div className="flex space-x-4">
+      <div className="flex flex-col gap-4 md:flex-row">
         {/* Left: PDF + inline UI */}
-        <div className="w-2/3">
+        <div className="flex-[60%]">
           {/* Upload */}
           <div className="mb-2">
             {!hasUploaded ? (
@@ -860,8 +860,8 @@ export default function ResumeLab() {
 
         {/* Right: Sidebar */}
         <div
-          className="w-1/3 overflow-auto border-l pl-3"
-          style={{ height: "75vh" }}
+          className="flex-[40%] overflow-auto border-l pl-3"
+          // style={{ height: "75vh" }}
         >
           {/* Copy & Clear */}
           <div className="mb-2 flex items-center justify-between">

@@ -2441,7 +2441,11 @@ const cardHoverEffect = {
 };
 
 // SECTION: Simple Navbar
-const SimpleNavbar = ({ isSignedIn }: { isSignedIn: boolean | undefined }) => {
+export const SimpleNavbar = ({
+  isSignedIn,
+}: {
+  isSignedIn: boolean | undefined;
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 

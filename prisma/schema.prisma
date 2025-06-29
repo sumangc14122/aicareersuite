@@ -1,0 +1,357 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Resume {
+  id     String @id @default(cuid())
+  userId String
+
+  title       String?
+  description String?
+
+  photoUrl    String?
+  colorHex    String  @default("#000000")
+  borderStyle String  @default("squircle")
+  summary     String?
+  firstName   String?
+  lastName    String?
+  jobTitle    String?
+  city        String?
+  country     String?
+  phone       String?
+  email       String?
+
+  workExperiences WorkExperience[]
+  educations      Education[]
+  skills          String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("resumes")
+}
+
+model WorkExperience {
+  id String @id @default(cuid())
+
+  position    String?
+  company     String?
+  startDate   DateTime?
+  endDate     DateTime?
+  description String?
+
+  resumeId String
+  resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("work_experiences")
+}
+
+model Education {
+  id String @id @default(cuid())
+
+  degree    String?
+  school    String?
+  startDate DateTime?
+  endDate   DateTime?
+
+  resumeId String
+  resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("educations")
+}
+
+model CoverLetterTemplate {
+  id        String   @id @default(cuid())
+  name      String
+  prompt    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserSubscription {
+  id                      String   @id @default(cuid())
+  userId                  String   @unique
+  stripeCustomerId        String   @unique
+  stripeSubscriptionId    String   @unique
+  stripePriceId           String
+  stripeCurrentPeriodEnd  DateTime
+  stripeCancelAtPeriodEnd Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_subscriptions")
+}
+
+model JobApplication {
+  id             String    @id @default(cuid())
+  userId         String // Clerk user ID
+  companyName    String
+  jobTitle       String
+  coverLetterUrl String? // Optional - file link
+  resumeUrl      String? // Optional - file link
+  applyLink      String? // Optional - job link
+  submitted      Boolean   @default(false)
+  followUp       Boolean   @default(false)
+  finalResult    String? // Pending, Rejected, Interview, etc.
+  mistakeNotes   String? // Any reflection or notes
+  resultDate     DateTime?
+  appliedDate    DateTime  @default(now())
+  reminderDate   DateTime? // ✅ NEW
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Blog {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  summary   String
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  fileUrl   String
+  type      String // NEW: e.g., "resume" or "cover_letter"
+  createdAt DateTime @default(now())
+}
+
+model Profile {
+  id     String @id @default(cuid())
+  userId String @unique
+
+  // Hero section
+  name           String
+  profilePicture String? // URL to an avatar or photo
+  tagline        String?
+
+  // About
+  bio        String?
+  jobTitle   String?
+  socialLink String?
+  industry   String?
+
+  // Resume & Cover
+  resumeUrl      String?
+  coverLetterUrl String?
+
+  // New: Skills & Projects
+  skills   String? // comma‑separated list, e.g. “JavaScript,React,SQL”
+  projects String? // JSON stringified array, e.g. `[{"name":"Proj1","link":"…"}]`
+
+  // back‑relations:
+  reviewRequests ReviewRequest[] // ← matches ReviewRequest.profile
+  reviewComments ReviewComment[] // ← matches ReviewComment.reviewerProfile
+
+  isPublic         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  stripeCustomerId String?
+  isPro            Boolean  @default(false)
+
+    // --- RELATIONS TO NEW MODELS ---
+  resumeDrafts     ResumeDraft[]     // A user (profile) can have multiple resume drafts
+  livingPortfolios LivingPortfolio[] // A user (profile) can have multiple living portfolios
+
+  posts        Post[]        @relation("ProfilePosts")
+  suggestions  Suggestion[]
+  annotations  Annotation[]
+  chatSessions ChatSession[]
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  profileId   String
+  profile     Profile  @relation("ProfilePosts", fields: [profileId], references: [id])
+  title       String?
+  content     String
+  isAnonymous Boolean  @default(false)
+  type        PostType @default(SUCCESS)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum PostType {
+  SUCCESS
+  BLOG
+  REVIEW
+}
+
+model ReviewRequest {
+  id          String          @id @default(cuid())
+  profile     Profile         @relation(fields: [profileId], references: [id])
+  profileId   String
+  resumeUrl   String
+  description String? // optional instructions for reviewers
+  isPublic    Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  comments    ReviewComment[]
+}
+
+model ReviewComment {
+  id                String        @id @default(cuid())
+  request           ReviewRequest @relation(fields: [requestId], references: [id])
+  requestId         String
+  reviewerProfile   Profile       @relation(fields: [reviewerProfileId], references: [id])
+  reviewerProfileId String
+  content           String
+  section           String? // e.g. "Education", "Skills" (optional)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+}
+
+model Suggestion {
+  id         String   @id @default(cuid())
+  profile    Profile  @relation(fields: [profileId], references: [id])
+  profileId  String
+  snippet    String // the text the user highlighted
+  suggestion String // the rewritten text from AI
+  createdAt  DateTime @default(now())
+
+  @@index([profileId], name: "idx_suggestion_profile")
+}
+
+model Annotation {
+  id        String   @id @default(cuid())
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  profileId String
+  snippet   String // the highlighted text
+  comment   String // user’s note
+  createdAt DateTime @default(now())
+
+  @@index([profileId], name: "idx_annotation_profile")
+}
+
+model ChatSession {
+  id        String   @id @default(cuid())
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  profileId String
+  name      String // e.g. "Interview Prep 2025-05-04"
+  topic     String // e.g. "Interview questions"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messages ChatMessage[]
+}
+
+model ChatMessage {
+  id        String      @id @default(cuid())
+  session   ChatSession @relation(fields: [sessionId], references: [id])
+  sessionId String
+  role      String // "system" | "user" | "assistant"
+  content   String
+  createdAt DateTime    @default(now())
+}
+
+model ResumeDraft {
+  id        String @id @default(cuid())
+  profileId String // Changed from userId to profileId
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade) // Relation to Profile
+  
+  title       String? // User-given title for this draft, e.g., "Data Analyst for FinTech"
+
+  // --- Data directly from Resume Wizard ---
+  wizardPersonalData  Json?   // { fullName, email, phone, city, country, linkedinUrl } (from your ResumeJSON.personal)
+  wizardSummary         String? // from ResumeJSON.summary
+  wizardSkills          String[] // from ResumeJSON.skills
+  wizardWorkExperiences Json?   // Stores WorkExperience[]: [{ position, company, startDate, endDate, bullets }]
+  wizardEducations      Json?   // Stores Education[]: [{ degree, school, startDate, endDate }]
+  wizardVolunteering    Json?   // Stores Volunteering[]: [{ role, organization, startDate, endDate, bullets }]
+  wizardCertifications  Json?   // Stores Certification[]: [{ title, issuer, date }]
+  wizardReferences      Json?   // Stores Reference[]: [{ name, contact }] (User decides if this ever becomes public)
+
+  // --- AI Generated Narrative Suite Data (associated with this specific draft) ---
+  aiCareerNarrative      String?
+  aiGoldenThread         String?
+  aiGoldenThreadEvidence Json?   // Array of GoldenThreadEvidence objects
+  aiKeyThemes            Json?   // Array of { theme: string, evidence: string }
+  
+  // Storing the full HiddenGemsResult object as JSON
+  aiHiddenGemsResultJson Json?   // Full HiddenGemsResult object: { hiddenGems: [HiddenGem] }
+  
+  aiWeavingSuggestions   Json?   // Array of WeavingSuggestion objects
+  aiWhatIfStarters       Json?   // Array of strings (prompts for user)
+  aiWhatIfResultsCache   Json?   // Array of { scenarioText: string, result: WhatIfResult }
+  
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  livingPortfolios LivingPortfolio[] // One draft can be the source for multiple portfolios
+
+  @@map("resume_drafts") // New table name for clarity
+}
+
+
+model LivingPortfolio {
+  id             String   @id @default(uuid())
+  profileId      String   // Links to the Profile (User)
+  profile        Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  sourceResumeDraftId String      // Which ResumeDraft this portfolio is based on
+  sourceResumeDraft   ResumeDraft @relation(fields: [sourceResumeDraftId], references: [id], onDelete: Cascade)
+
+  title          String   // User-defined title for this public portfolio, e.g., "My Data Science Portfolio"
+  slug           String?  @unique 
+  isPublic       Boolean  @default(false)
+  theme          String   @default("default") 
+  
+  // --- SNAPSHOTTED & PUBLICLY CONFIGURABLE DATA FOR THIS PORTFOLIO ---
+  // These fields are populated from ResumeDraft and AI insights when the portfolio is published/updated,
+  // controlled by displaySettings.
+  publicFullName        String?
+  publicJobTitle        String? // Could come from ResumeDraft.wizardPersonalData.jobTitle or Profile.jobTitle
+  publicEmail           String?
+  publicPhone           String?
+  publicLocation        String? // e.g., "City, Country"
+  publicLinkedInUrl     String?
+  // photoUrl can be sourced from Profile.profilePicture if user wants it public
+
+  publicSummary         String?
+  publicSkills          String[]
+  publicWorkExperiences Json?   // Filtered/selected WorkExperience[]
+  publicEducations      Json?   // Filtered/selected Education[]
+  publicVolunteering    Json?   // Filtered/selected Volunteering[]
+  publicCertifications  Json?   // Filtered/selected Certification[]
+  
+  publicCareerNarrative      String?
+  publicGoldenThread         String?
+  publicGoldenThreadEvidence Json? // Filtered/selected GoldenThreadEvidence[]
+  publicKeyThemes            Json?   // Filtered/selected KeyTheme[]
+  publicHiddenGems           Json?   // Filtered/selected HiddenGem[] from ResumeDraft.aiHiddenGemsResultJson
+  
+  publicWhatIfScenarios  Json?   // Array of { scenarioText: string, adaptedResult: WhatIfResult } chosen by user
+
+  showcaseSections       Json?   // User-added project showcases, etc.
+                                 // Example: [{"title": "Data Analysis Projects", "items": [{"name": "Project X", "desc": "..."}]}]
+
+  displaySettings        Json?   // Stores all 'showXYZ' visibility flags
+                                 // e.g., { contact: { email: true, phone: false}, sections: {summary: true}, narrative: {goldenThread: true} }
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("living_portfolios")
+}

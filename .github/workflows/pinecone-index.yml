@@ -1,0 +1,41 @@
+# .github/workflows/pinecone-index.yml
+
+name: Update Pinecone Index
+
+# This workflow runs ONLY when changes are pushed to the main branch
+# AND those changes are within the 'src/data/kb/' directory.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/data/kb/**'
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Check out your repository code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Use the same Node.js version as your project
+
+      # Step 3: Install project dependencies (including tsx)
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run the indexing script
+      - name: Run Pinecone indexing script
+        run: npm run index-kb
+        env:
+          # This securely loads the secrets you created in GitHub
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+          PINECONE_ENVIRONMENT: ${{ secrets.PINECONE_ENVIRONMENT }}
+          PINECONE_INDEX_NAME: ${{ secrets.PINECONE_INDEX_NAME }}

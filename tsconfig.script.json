@@ -1,0 +1,11 @@
+// tsconfig.script.json
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      // Override settings for Node.js script execution
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext"
+    },
+    // Tell this config to only worry about files in the 'scripts' folder
+    "include": ["scripts"]
+  }

@@ -1,0 +1,1126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: #fff !important;
+    color: #000 !important;
+    font-family: Inter, Arial, Helvetica, sans-serif !important;
+    font-size: 10pt !important;
+    line-height: 1.38 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #resumePreviewContentWrapper {
+    /* This ID wraps the GenericTemplate output in API route */
+    background-color: #fff !important; /* Default page background for resume content */
+    color: #222 !important; /* Default text color */
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Universal Print Resets within the resume content */
+  #resumePreviewContentWrapper *,
+  #resumePreviewContentWrapper *::before,
+  #resumePreviewContentWrapper *::after {
+    box-sizing: border-box !important;
+    font-size: 1em !important; /* Inherit proportionally from parent's pt size */
+    line-height: inherit !important;
+    font-weight: normal !important;
+    color: inherit !important;
+    background-color: transparent !important; /* Override for elements that need color */
+    text-shadow: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 solid transparent !important;
+  }
+
+  /* Page/Container Level Padding (from GenericTemplate's .p-6 or .sm:p-8) */
+  #resumePreviewContentWrapper > div > div[class*="p-6"],
+  #resumePreviewContentWrapper > div > div[class*="sm:p-8"] {
+    padding: 8mm !important;
+  }
+  #resumePreviewContentWrapper
+    > div
+    > div[class*="space-y-6"]
+    > *:not([hidden])
+    ~ *:not([hidden]) {
+    margin-top: 6mm !important;
+  }
+  /* For two-column main container specific padding */
+  #resumePreviewContentWrapper div[class*="md:grid-cols-3"] {
+    padding: 8mm !important;
+    gap: 6mm !important;
+  }
+
+  /* --- HEADER --- */
+  #resumePreviewContentWrapper header {
+    padding: 5mm 0mm !important;
+    margin-bottom: 6mm !important;
+    border-bottom: 0.5pt solid #ccc !important;
+  }
+  #resumePreviewContentWrapper header.bg-slate-700 {
+    background-color: #334155 !important;
+    color: white !important;
+    border-bottom-color: #475569 !important;
+  }
+  #resumePreviewContentWrapper header.bg-slate-700 h1,
+  #resumePreviewContentWrapper header.bg-slate-700 span,
+  #resumePreviewContentWrapper header.bg-slate-700 a {
+    color: white !important;
+  }
+  #resumePreviewContentWrapper header.bg-white {
+    background-color: #fff !important;
+  }
+  #resumePreviewContentWrapper header.bg-indigo-600 {
+    background-color: #4f46e5 !important;
+    color: white !important;
+    border-bottom-color: #4338ca !important;
+  }
+  #resumePreviewContentWrapper header.bg-indigo-600 h1,
+  #resumePreviewContentWrapper header.bg-indigo-600 span,
+  #resumePreviewContentWrapper header.bg-indigo-600 a {
+    color: white !important;
+  }
+  #resumePreviewContentWrapper header.bg-purple-700 {
+    background-color: #7e22ce !important;
+    color: white !important;
+    border-bottom-color: #6b21a8 !important;
+  }
+  #resumePreviewContentWrapper header.bg-purple-700 h1,
+  #resumePreviewContentWrapper header.bg-purple-700 span,
+  #resumePreviewContentWrapper header.bg-purple-700 a {
+    color: white !important;
+  }
+  #resumePreviewContentWrapper header.bg-gray-800 {
+    background-color: #1f2937 !important;
+    color: white !important;
+    border-bottom-color: #374151 !important;
+  }
+  #resumePreviewContentWrapper header.bg-gray-800 h1,
+  #resumePreviewContentWrapper header.bg-gray-800 span,
+  #resumePreviewContentWrapper header.bg-gray-800 a {
+    color: white !important;
+  }
+
+  #resumePreviewContentWrapper header h1 {
+    font-size: 18pt !important;
+    font-weight: bold !important;
+    margin-bottom: 2mm !important;
+  }
+  #resumePreviewContentWrapper header div[class*="text-sm"] {
+    font-size: 9pt !important;
+    margin-top: 2mm !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1.5mm 4mm !important;
+  }
+  #resumePreviewContentWrapper header div[class*="text-sm"] > * {
+    font-size: inherit !important;
+  }
+  #resumePreviewContentWrapper header a {
+    text-decoration: none !important;
+  }
+  #resumePreviewContentWrapper header.bg-white a {
+    color: #2563eb !important;
+  }
+
+  /* --- SECTIONS --- */
+  #resumePreviewContentWrapper section {
+    margin-bottom: 6mm !important;
+    break-inside: avoid !important;
+  }
+  #resumePreviewContentWrapper section > h2 {
+    font-size: 12pt !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+    padding: 2.5mm 4mm !important;
+    margin-bottom: 0 !important; /* Title directly joins content div */
+    border-top-left-radius: 3px !important;
+    border-top-right-radius: 3px !important;
+    border-bottom: none !important; /* Section title itself doesn't have bottom border if content div has top border */
+  }
+  /* Default section title appearance (if no specific template class matches) */
+  #resumePreviewContentWrapper section > h2 {
+    background-color: #e5e7eb !important;
+    color: #1f2937 !important;
+  }
+
+  /* Specific Template Accent Backgrounds for Section Titles */
+  #resumePreviewContentWrapper section > h2[class*="bg-slate-700"] {
+    background-color: #334155 !important;
+    color: white !important;
+  }
+  #resumePreviewContentWrapper section > h2[class*="bg-sky-500"] {
+    background-color: #0ea5e9 !important;
+    color: white !important;
+  }
+  #resumePreviewContentWrapper section > h2[class*="bg-teal-600"] {
+    background-color: #0d9488 !important;
+    color: white !important;
+  }
+  #resumePreviewContentWrapper section > h2[class*="bg-indigo-600"] {
+    background-color: #4f46e5 !important;
+    color: white !important;
+  }
+  #resumePreviewContentWrapper section > h2[class*="bg-indigo-100"] {
+    background-color: #e0e7ff !important;
+    color: #4338ca !important;
+  }
+  #resumePreviewContentWrapper section > h2[class*="bg-gray-100"] {
+    background-color: #f3f4f6 !important;
+    color: #374151 !important;
+  }
+  #resumePreviewContentWrapper section > h2[class*="bg-purple-700"] {
+    background-color: #7e22ce !important;
+    color: white !important;
+  }
+  #resumePreviewContentWrapper section > h2[class*="bg-pink-100"] {
+    background-color: #fce7f3 !important;
+    color: #be185d !important;
+  }
+  #resumePreviewContentWrapper section > h2[class*="bg-gray-200"] {
+    background-color: #e5e7eb !important;
+    color: #1f2937 !important;
+  }
+  #resumePreviewContentWrapper section > h2[class*="bg-gray-800"] {
+    background-color: #1f2937 !important;
+    color: white !important;
+  }
+
+  /* LinkedIn Style Section Title (plain text, no bg bar) */
+  #resumePreviewContentWrapper
+    section
+    > h2[class*="bg-white"][class*="text-gray-700"],
+  #resumePreviewContentWrapper
+    section
+    > h2[class*="bg-white"][class*="text-slate-800"] {
+    font-size: 13pt !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    color: #1f2937 !important;
+    background-color: transparent !important;
+    padding: 0 0 2mm 0 !important;
+    margin-bottom: 3mm !important;
+    border-bottom: 0.75pt solid #d1d5db !important;
+    border-radius: 0 !important;
+  }
+
+  /* Section content div */
+  #resumePreviewContentWrapper section > div[class*="rounded-b-lg"] {
+    padding: 3mm !important;
+    background-color: #fff !important;
+    border: 0.5pt solid #e0e0e0;
+    border-top: none !important; /* Add border to content if title has bg */
+    border-bottom-left-radius: 3px !important;
+    border-bottom-right-radius: 3px !important;
+  }
+  /* For LinkedIn style, title has bottom border, so content div might not need top border */
+  #resumePreviewContentWrapper
+    section
+    > h2[class*="bg-white"]
+    + div[class*="rounded-b-lg"] {
+    border-top: none !important;
+    padding-top: 2mm !important; /* Space after the underlined title */
+  }
+  /* For card style layouts, the items themselves are cards */
+  #resumePreviewContentWrapper
+    div[class*="bg-gray-50"]
+    section
+    > div
+    > div[class*="rounded-lg"],
+  #resumePreviewContentWrapper
+    div[class*="bg-gray-50"]
+    section
+    > div
+    > div[class*="rounded-xl"] {
+    padding: 4mm !important;
+    margin-bottom: 4mm !important;
+    background-color: #fff !important;
+    border: 0.5pt solid #e5e7eb !important;
+    border-radius: 4px !important;
+  }
+
+  /* --- TEXT & LISTS --- */
+  #resumePreviewContentWrapper p {
+    font-size: 9.5pt !important;
+    line-height: 1.4 !important;
+    margin-bottom: 2mm !important;
+  }
+  #resumePreviewContentWrapper .text-justify {
+    text-align: justify !important;
+  }
+  #resumePreviewContentWrapper strong {
+    font-weight: bold !important;
+    color: #111 !important;
+  }
+  #resumePreviewContentWrapper em,
+  #resumePreviewContentWrapper .italic {
+    font-style: italic !important;
+    color: #4b5563 !important;
+  }
+
+  #resumePreviewContentWrapper ul,
+  #resumePreviewContentWrapper ol {
+    padding-left: 5mm !important;
+    margin-bottom: 2mm !important;
+  }
+  #resumePreviewContentWrapper li {
+    font-size: 9.5pt !important;
+    line-height: 1.4 !important;
+    margin-bottom: 1.2mm !important;
+    break-inside: avoid !important;
+  }
+  #resumePreviewContentWrapper .list-disc li {
+    list-style-type: disc !important;
+  }
+  #resumePreviewContentWrapper .list-none {
+    padding-left: 0 !important;
+  }
+  #resumePreviewContentWrapper .list-none li {
+    list-style-type: none !important;
+  }
+
+  #resumePreviewContentWrapper li[class*="before:content-['•']"] {
+    position: relative !important;
+    padding-left: 4mm !important;
+  }
+  #resumePreviewContentWrapper li[class*="before:content-['•']"]::before {
+    content: "•" !important;
+    position: absolute !important;
+    left: 0px !important;
+    top: 0.08em !important;
+    font-weight: bold !important;
+    color: #2563eb !important;
+    font-size: 1em !important;
+  }
+
+  /* --- SPECIFIC ITEM STYLING (Work Exp, Edu etc.) --- */
+  #resumePreviewContentWrapper div[class*="sectionItemClass"] {
+    padding: 1.5mm 0 !important;
+    margin-bottom: 2.5mm !important;
+    border-bottom: 0.3pt solid #f0f0f0 !important;
+  }
+  #resumePreviewContentWrapper div[class*="sectionItemClass"]:last-child {
+    border-bottom: none !important;
+  }
+  #resumePreviewContentWrapper div[class*="sectionItemClass"] h3 {
+    font-size: 11pt !important;
+    font-weight: bold !important;
+    color: #111827 !important;
+    margin-bottom: 0.5mm !important;
+  }
+  #resumePreviewContentWrapper
+    div[class*="sectionItemClass"]
+    .companyTextClass {
+    font-size: 10pt !important;
+    font-style: italic !important;
+    color: #4b5563 !important;
+    margin-bottom: 0.5mm !important;
+  }
+  #resumePreviewContentWrapper div[class*="sectionItemClass"] .dateTextClass {
+    font-size: 8.5pt !important;
+    color: #6b7280 !important;
+    margin-bottom: 1.5mm !important;
+  }
+  #resumePreviewContentWrapper div[class*="sectionItemClass"] ul {
+    margin-top: 1.5mm !important;
+    padding-left: 5mm !important;
+  }
+
+  /* --- TIMELINE LAYOUT --- */
+  #resumePreviewContentWrapper
+    div[class*="border-l-2"][class*="border-blue-500/50"],
+  #resumePreviewContentWrapper
+    div[class*="border-l-2"][class*="border-green-500/50"] {
+    position: relative !important;
+    border-left-width: 1.5pt !important;
+    border-style: solid !important;
+    padding-left: 10mm !important;
+    padding-top: 1mm !important;
+    margin-left: 4mm !important;
+  }
+  #resumePreviewContentWrapper div[class*="border-blue-500/50"] {
+    border-color: #60a5fa !important;
+  }
+  #resumePreviewContentWrapper div[class*="border-green-500/50"] {
+    border-color: #34d399 !important;
+  }
+  #resumePreviewContentWrapper
+    div[class*="border-l-2"]
+    > div[class*="relative item-no-break"] {
+    position: relative !important;
+    padding-left: 0 !important;
+    margin-bottom: 4mm !important;
+  }
+  #resumePreviewContentWrapper
+    div[class*="border-l-2"]
+    > div[class*="relative item-no-break"]
+    > div[class*="absolute w-5 h-5 rounded-full"] {
+    position: absolute !important;
+    width: 3mm !important;
+    height: 3mm !important;
+    border-radius: 50% !important;
+    left: -11.5mm !important; /* Adjust: -(container_padding_left) - (dot_width/2) + line_offset_from_padding_start */
+    top: 0.1em !important; /* Adjust based on h3 line-height */
+    border: 0.5pt solid white !important;
+    box-shadow: 0 0 0 0.5pt #777 !important;
+  }
+  #resumePreviewContentWrapper
+    div[class*="absolute"][class*="bg-blue-500"][class*="rounded-full"] {
+    background-color: #3b82f6 !important;
+  }
+  #resumePreviewContentWrapper
+    div[class*="absolute"][class*="bg-green-500"][class*="rounded-full"] {
+    background-color: #10b981 !important;
+  }
+
+  /* --- TWO COLUMN LAYOUT --- */
+  #resumePreviewContentWrapper div[class*="md:grid-cols-3"] {
+    /* Main grid container */
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    gap: 6mm !important; /* Space between columns */
+    padding: 8mm !important; /* Overall padding for the two-column layout */
+  }
+  #resumePreviewContentWrapper div[class*="md:col-span-1"] {
+    /* Sidebar */
+    width: 32% !important; /* Adjust for content and gap */
+    padding: 0 !important; /* Remove padding if gap is used and sections have their own */
+  }
+  #resumePreviewContentWrapper div[class*="md:col-span-2"] {
+    /* Main content */
+    width: calc(68% - 6mm) !important; /* Adjust for content and gap */
+    padding: 0 !important;
+  }
+  #resumePreviewContentWrapper
+    div[class*="md:col-span-1"]
+    section
+    > div[class*="bg-gray-50"] {
+    background-color: #f9fafb !important;
+    padding: 3mm !important;
+    border-radius: 3px !important;
+    border: 0.5pt solid #e5e7eb !important;
+  }
+  #resumePreviewContentWrapper div[class*="md:col-span-1"] section > h2 {
+    font-size: 11pt !important;
+    padding: 2mm 3mm !important;
+  }
+
+  /* --- COLUMN UTILITIES --- */
+  #resumePreviewContentWrapper div[class*="columns-1"] {
+    column-count: 1 !important;
+  }
+  #resumePreviewContentWrapper div[class*="columns-2"],
+  #resumePreviewContentWrapper div[class*="sm:columns-2"] {
+    column-count: 2 !important;
+    column-gap: 7mm !important;
+  }
+  #resumePreviewContentWrapper div[class*="md:columns-3"] {
+    column-count: 3 !important;
+    column-gap: 5mm !important;
+  }
+
+  .noprint,
+  .noprint-pdf {
+    display: none !important;
+  }
+}
+
+/* --- Base Portfolio Styles (applied to all themes if not overridden) --- */
+.portfolio-page-container {
+  @apply container mx-auto max-w-5xl overflow-x-hidden px-4 py-12 md:py-20;
+}
+
+.portfolio-header {
+  /* Base styling for the hero section card */
+  @apply mb-8 rounded-xl bg-white py-8 text-center shadow-2xl md:mb-12;
+}
+.portfolio-header h1 {
+  @apply mb-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl;
+}
+.portfolio-header p {
+  /* For job title / subtitle in header */
+  @apply mb-4 text-lg font-semibold text-indigo-700 sm:text-xl;
+}
+.portfolio-contact-info {
+  @apply mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-600;
+}
+.portfolio-contact-info .portfolio-link {
+  /* Specific styling for links within contact info if needed */
+  @apply text-indigo-600 hover:text-indigo-800;
+}
+/* Avatar specific base styles (if any, mostly handled by Tailwind in component) */
+.portfolio-header .avatar-container {
+  @apply bg-indigo-100 ring-white;
+}
+.portfolio-header .avatar-initials {
+  @apply text-indigo-600;
+}
+
+.portfolio-section {
+  /* Base for PortfolioSectionWrapper's default className (sectionCardClass in page.tsx) */
+  @apply rounded-xl bg-white p-6 shadow-xl sm:p-8; /* Matches sectionCardClass */
+}
+.portfolio-section-title {
+  /* Base for titles inside PortfolioSectionWrapper */
+  @apply text-3xl font-bold text-gray-800 md:text-4xl; /* Matches sectionTitleClassPublic */
+}
+.portfolio-section-icon {
+  /* Base styling for icons next to section titles */
+  @apply mr-4 flex-shrink-0 scale-125 text-indigo-600;
+}
+.portfolio-prose {
+  /* Base for content area inside PortfolioSectionWrapper */
+  @apply prose prose-slate max-w-none leading-relaxed text-gray-700 lg:prose-lg;
+}
+.portfolio-prose a {
+  @apply text-indigo-600 hover:text-indigo-800;
+} /* Default prose link color */
+.portfolio-prose strong {
+  @apply text-gray-900;
+}
+
+/* Base styles for specific elements, to be themed */
+.skill-tag {
+  @apply cursor-default rounded-full px-4 py-2 text-sm font-semibold shadow-md transition-colors;
+}
+.portfolio-link {
+  /* General purpose links outside prose */
+  @apply font-medium transition-colors;
+}
+
+/* Timeline Base Styling (theme will provide colors) */
+.experience-timeline-line::before,
+.education-timeline-line::before {
+  @apply absolute inset-0 z-0 ml-3.5 w-1 rounded-full content-['']; /* Base structure */
+}
+.experience-timeline-dot,
+.education-timeline-dot {
+  @apply absolute left-0 top-1 z-10 flex h-8 w-8 items-center justify-center rounded-full border-4 shadow-md ring-2 transition-transform group-hover:scale-110;
+}
+.experience-timeline-dot .lucide, /* Icon inside dot */
+.education-timeline-dot .lucide {
+  @apply h-3.5 w-3.5; /* lucide icons are 14px as per page.tsx */
+}
+
+/* Key Theme Card Base */
+.key-theme-card {
+  @apply transform rounded-lg border p-6 shadow-lg transition-shadow hover:-translate-y-1 hover:shadow-xl;
+}
+.key-theme-card-title {
+  @apply mb-2 text-xl font-semibold;
+}
+.key-theme-card-text {
+  @apply text-sm leading-normal;
+}
+
+/* Showcase Item Base */
+.showcase-item {
+  @apply transform rounded-xl border p-6 shadow-lg transition-shadow duration-300 hover:scale-[1.02] hover:shadow-2xl;
+}
+
+/* Volunteering & Certification Item Base */
+.volunteering-item,
+.certification-item {
+  @apply rounded-lg border p-5 shadow-md transition-shadow hover:shadow-lg;
+}
+
+/* What If & Hidden Gem Base */
+.what-if-section-container,
+.hidden-gems-section-container {
+  @apply rounded-xl p-6 sm:p-8;
+}
+.what-if-item,
+.hidden-gem-item {
+  @apply rounded-lg border bg-white p-6 shadow-xl;
+}
+
+/* --- Theme: Default Professional --- */
+.theme-default {
+  @apply bg-gradient-to-br from-slate-100 via-gray-100 to-slate-200; /* Original page bg */
+  /* Default theme mostly uses the Tailwind classes directly from page.tsx or base styles above */
+}
+.theme-default .portfolio-header {
+  /* Already styled well by its own classes in page.tsx */
+}
+.theme-default .portfolio-section-title {
+  @apply text-gray-800;
+} /* Default is already this */
+.theme-default .portfolio-section-icon {
+  @apply text-indigo-600;
+} /* Default is already this */
+.theme-default .portfolio-prose {
+  @apply text-gray-700;
+}
+.theme-default .portfolio-prose a {
+  @apply text-indigo-600 hover:text-indigo-800;
+}
+.theme-default .portfolio-prose strong {
+  @apply text-gray-900;
+}
+
+.theme-default .skill-tag {
+  @apply bg-indigo-100 text-indigo-800 hover:bg-indigo-200;
+}
+.theme-default .portfolio-link {
+  @apply text-indigo-600 hover:text-indigo-800;
+}
+
+/* Timeline - Default Theme */
+.theme-default .experience-timeline-line::before,
+.theme-default .education-timeline-line::before {
+  @apply bg-indigo-200;
+}
+.theme-default .experience-timeline-dot,
+.theme-default .education-timeline-dot {
+  @apply border-white bg-indigo-600 ring-indigo-300;
+}
+.theme-default .experience-timeline-dot .lucide,
+.theme-default .education-timeline-dot .lucide {
+  @apply text-white;
+}
+
+/* Specific Cards - Default Theme */
+.theme-default .key-theme-card {
+  @apply border-indigo-200 bg-indigo-50;
+}
+.theme-default .key-theme-card-title {
+  @apply text-indigo-700;
+}
+.theme-default .key-theme-card-text {
+  @apply text-gray-600;
+}
+
+.theme-default .showcase-item {
+  @apply border-gray-200 bg-white;
+}
+.theme-default .volunteering-item,
+.theme-default .certification-item {
+  @apply border-slate-200 bg-slate-50;
+}
+.theme-default .what-if-section-container {
+  @apply bg-slate-200/70;
+}
+.theme-default .what-if-item {
+  @apply border-teal-200 bg-white;
+}
+.theme-default .hidden-gems-section-container {
+  @apply bg-indigo-50;
+}
+.theme-default .hidden-gem-item {
+  @apply border-amber-300 bg-white;
+}
+
+/* --- Theme: Modern Dark --- */
+.theme-modern-dark {
+  @apply bg-gray-900 text-gray-300; /* Base text color for the theme */
+}
+.theme-modern-dark .portfolio-header {
+  @apply bg-gray-800 shadow-2xl shadow-indigo-500/30;
+}
+.theme-modern-dark .portfolio-header h1 {
+  @apply text-white;
+}
+.theme-modern-dark .portfolio-header p {
+  @apply text-indigo-400;
+} /* Job title */
+.theme-modern-dark .portfolio-contact-info {
+  @apply text-gray-400;
+}
+.theme-modern-dark .portfolio-contact-info .portfolio-link {
+  @apply text-indigo-400 hover:text-indigo-300;
+}
+.theme-modern-dark .portfolio-header .avatar-container {
+  @apply bg-gray-700 ring-gray-800;
+}
+.theme-modern-dark .portfolio-header .avatar-initials {
+  @apply text-indigo-400;
+}
+
+.theme-modern-dark .portfolio-section {
+  /* For sectionCardClass based sections */
+  @apply border border-gray-700 bg-gray-800 shadow-xl shadow-indigo-900/20;
+}
+.theme-modern-dark .portfolio-section-title {
+  @apply text-indigo-400;
+}
+.theme-modern-dark .portfolio-section-icon {
+  @apply text-indigo-500;
+}
+
+/* Ensure prose content within ANY .portfolio-section is inverted and readable */
+.theme-modern-dark .portfolio-section .portfolio-prose {
+  @apply prose-invert text-gray-300; /* Handles p, ul, li, etc. within prose */
+}
+.theme-modern-dark .portfolio-section .portfolio-prose a {
+  @apply text-indigo-400 hover:text-indigo-300;
+}
+.theme-modern-dark .portfolio-section .portfolio-prose strong {
+  @apply text-gray-100;
+}
+/* If some text is outside .portfolio-prose but inside .portfolio-section, it should inherit text-gray-300 */
+.theme-modern-dark .portfolio-section > div:not(.portfolio-prose) {
+  /* Catches direct children that aren't prose divs */
+  @apply text-gray-300;
+}
+.theme-modern-dark .portfolio-section > div:not(.portfolio-prose) h3,
+.theme-modern-dark .portfolio-section > div:not(.portfolio-prose) p,
+.theme-modern-dark .portfolio-section > div:not(.portfolio-prose) span,
+.theme-modern-dark .portfolio-section > div:not(.portfolio-prose) li {
+  /* Ensure list items are also caught */
+  @apply text-gray-300;
+}
+.theme-modern-dark .portfolio-section > div:not(.portfolio-prose) strong {
+  @apply text-gray-100;
+}
+.theme-modern-dark .portfolio-section > div:not(.portfolio-prose) a {
+  @apply text-indigo-400 hover:text-indigo-300;
+}
+
+.theme-modern-dark .skill-tag {
+  @apply border border-indigo-600 bg-indigo-700/40 text-indigo-300 hover:bg-indigo-700/60;
+}
+.theme-modern-dark .portfolio-link {
+  @apply text-indigo-400 hover:text-indigo-300;
+}
+
+/* Timeline - Modern Dark */
+.theme-modern-dark .experience-timeline-line::before,
+.theme-modern-dark .education-timeline-line::before {
+  @apply bg-gray-700;
+}
+.theme-modern-dark .experience-timeline-dot,
+.theme-modern-dark .education-timeline-dot {
+  @apply border-gray-800 bg-indigo-500 ring-indigo-700;
+}
+.theme-modern-dark .experience-timeline-dot .lucide,
+.theme-modern-dark .education-timeline-dot .lucide {
+  @apply text-gray-900;
+}
+
+/* Specific Cards - Modern Dark */
+.theme-modern-dark .key-theme-card {
+  @apply border-gray-600 bg-gray-800;
+} /* Slightly lighter card */
+.theme-modern-dark .key-theme-card-title {
+  @apply text-indigo-400;
+}
+.theme-modern-dark .key-theme-card-text {
+  @apply text-gray-300;
+} /* Ensure text is light */
+
+.theme-modern-dark .showcase-item {
+  @apply border-gray-600 bg-gray-800;
+} /* Slightly lighter card */
+.theme-modern-dark .showcase-item h3 {
+  @apply text-gray-100;
+} /* Main title in showcase */
+.theme-modern-dark .showcase-item p {
+  @apply text-gray-300;
+} /* Description */
+.theme-modern-dark .showcase-item strong {
+  @apply text-gray-400;
+} /* "Skills Leveraged:" */
+.theme-modern-dark .showcase-item .skill-tag {
+  /* Skills within showcase items */
+  @apply border-gray-500 bg-gray-600 text-indigo-300;
+}
+
+/* Golden Thread - Modern Dark (from previous refinement) */
+.theme-modern-dark #golden-thread.portfolio-section {
+  @apply border-gray-700 bg-gray-800 text-center shadow-xl;
+}
+.theme-modern-dark #golden-thread .portfolio-section-icon {
+  @apply text-indigo-400;
+}
+.theme-modern-dark #golden-thread h3 {
+  @apply text-indigo-300;
+}
+.theme-modern-dark #golden-thread > .portfolio-prose > p {
+  @apply text-gray-100;
+}
+.theme-modern-dark #golden-thread .portfolio-prose h4 {
+  @apply uppercase tracking-wider text-gray-400;
+}
+.theme-modern-dark #golden-thread .portfolio-prose ul li {
+  @apply flex items-start rounded-lg bg-gray-800 p-4 text-gray-300 shadow-lg transition-all duration-300 ease-in-out;
+  @apply hover:scale-[1.03] hover:shadow-indigo-900/40;
+}
+.theme-modern-dark #golden-thread .portfolio-prose ul li .lucide {
+  @apply text-indigo-400;
+}
+.theme-modern-dark #golden-thread .portfolio-prose ul li strong {
+  @apply text-indigo-300;
+}
+
+/* Volunteering & Certification Items - Modern Dark */
+.theme-modern-dark .volunteering-item,
+.theme-modern-dark .certification-item {
+  @apply border-gray-600 bg-gray-800 text-gray-300; /* Darker card, light text */
+}
+.theme-modern-dark .volunteering-item h3,
+.theme-modern-dark .certification-item h3 {
+  /* Role / Cert Title */
+  @apply text-gray-100;
+}
+.theme-modern-dark .volunteering-item p.text-indigo-600, /* Organization / Issuer */
+.theme-modern-dark .certification-item p.text-indigo-600 {
+  @apply text-indigo-400; /* Brighter accent for these */
+}
+.theme-modern-dark .volunteering-item p.text-gray-500, /* Dates */
+.theme-modern-dark .certification-item p.text-gray-500 {
+  @apply text-gray-400; /* Lighter muted text */
+}
+.theme-modern-dark .volunteering-item ul li {
+  /* Bullets */
+  @apply text-gray-300;
+}
+.theme-modern-dark .volunteering-item ul li .lucide {
+  /* Chevron in bullets */
+  @apply text-indigo-400;
+}
+
+/* What If Section - Modern Dark */
+.theme-modern-dark .what-if-section-container {
+  @apply bg-gray-800;
+} /* Darker section container */
+.theme-modern-dark .what-if-item {
+  @apply border-teal-600 bg-gray-800;
+} /* Dark card, teal accent border */
+.theme-modern-dark .what-if-item h3 {
+  @apply text-teal-400;
+} /* Scenario text */
+.theme-modern-dark .what-if-item p {
+  @apply text-gray-300;
+} /* Adapted narrative */
+.theme-modern-dark .what-if-item h4 {
+  @apply text-teal-300;
+} /* "Key Transferable Skills:", "Pivot Points:" */
+.theme-modern-dark .what-if-item ul {
+  @apply text-teal-400;
+} /* List items for skills/points */
+
+/* Hidden Gems Section - Modern Dark */
+.theme-modern-dark .hidden-gems-section-container {
+  @apply bg-gray-800;
+} /* Darker section container */
+.theme-modern-dark .hidden-gem-item {
+  @apply border-amber-600 bg-gray-800;
+} /* Dark card, amber accent border */
+.theme-modern-dark .hidden-gem-item h3 {
+  @apply text-amber-400;
+} /* Gem title */
+.theme-modern-dark .hidden-gem-item h3 .lucide {
+  @apply text-amber-500;
+} /* Lightbulb icon */
+.theme-modern-dark .hidden-gem-item p {
+  @apply text-gray-300;
+} /* "Why it's valuable", "Suggestion" text */
+.theme-modern-dark .hidden-gem-item p strong {
+  @apply text-amber-300;
+} /* The strong parts of the text */
+
+/* --- Theme: Creative Light --- */
+.theme-creative-light {
+  @apply bg-amber-50 text-slate-800;
+}
+.theme-creative-light .portfolio-header {
+  @apply bg-white shadow-orange-500/10;
+}
+.theme-creative-light .portfolio-header h1 {
+  @apply text-orange-700;
+}
+.theme-creative-light .portfolio-header p {
+  @apply text-orange-600;
+} /* Job title */
+.theme-creative-light .portfolio-contact-info {
+  @apply text-slate-700;
+}
+.theme-creative-light .portfolio-contact-info .portfolio-link {
+  @apply text-orange-600 hover:text-orange-700;
+}
+.theme-creative-light .portfolio-header .avatar-container {
+  @apply bg-orange-100 ring-white;
+}
+.theme-creative-light .portfolio-header .avatar-initials {
+  @apply text-orange-700;
+}
+
+.theme-creative-light .portfolio-section {
+  /* For sectionCardClass based sections */
+  @apply border-2 border-orange-200 bg-white shadow-lg;
+}
+.theme-creative-light .portfolio-section-title {
+  @apply text-orange-700;
+}
+.theme-creative-light .portfolio-section-icon {
+  @apply text-orange-600;
+}
+.theme-creative-light .portfolio-prose {
+  @apply text-slate-700;
+}
+.theme-creative-light .portfolio-prose a {
+  @apply text-orange-600 hover:text-orange-700;
+}
+.theme-creative-light .portfolio-prose strong {
+  @apply text-slate-900;
+}
+
+.theme-creative-light .skill-tag {
+  @apply border border-orange-300 bg-orange-100 text-orange-800 hover:bg-orange-200;
+}
+.theme-creative-light .portfolio-link {
+  @apply text-orange-600 hover:text-orange-700;
+}
+
+/* Timeline - Creative Light */
+.theme-creative-light .experience-timeline-line::before,
+.theme-creative-light .education-timeline-line::before {
+  @apply bg-orange-200;
+}
+.theme-creative-light .experience-timeline-dot,
+.theme-creative-light .education-timeline-dot {
+  @apply border-white bg-orange-500 ring-orange-300;
+}
+.theme-creative-light .experience-timeline-dot .lucide,
+.theme-creative-light .education-timeline-dot .lucide {
+  @apply text-white;
+}
+
+/* Specific Cards - Creative Light */
+.theme-creative-light .key-theme-card {
+  @apply border-orange-300 bg-orange-50;
+}
+.theme-creative-light .key-theme-card-title {
+  @apply text-orange-700;
+}
+.theme-creative-light .key-theme-card-text {
+  @apply text-slate-600;
+}
+
+.theme-creative-light .showcase-item {
+  @apply border-orange-200 bg-white;
+}
+.theme-creative-light .volunteering-item,
+.theme-creative-light .certification-item {
+  @apply border-orange-200 bg-white;
+}
+
+.theme-creative-light .what-if-section-container {
+  @apply bg-amber-100/70;
+}
+.theme-creative-light .what-if-item {
+  @apply border-teal-400 bg-white;
+}
+.theme-creative-light .what-if-item h3 {
+  @apply text-teal-700;
+}
+
+.theme-creative-light .hidden-gems-section-container {
+  @apply bg-yellow-50;
+}
+.theme-creative-light .hidden-gem-item {
+  @apply border-yellow-400 bg-white;
+}
+.theme-creative-light .hidden-gem-item h3 {
+  @apply text-yellow-700;
+}
+
+/* --- Theme: Minimalist Focus --- */
+.theme-minimalist-focus {
+  @apply bg-white text-gray-800;
+}
+.theme-minimalist-focus .portfolio-header {
+  @apply bg-gray-50 py-10 shadow-md; /* Subtle header background */
+}
+.theme-minimalist-focus .portfolio-header h1 {
+  @apply text-4xl text-gray-900 sm:text-5xl;
+}
+.theme-minimalist-focus .portfolio-header p {
+  @apply text-lg text-gray-600;
+} /* Job title */
+.theme-minimalist-focus .portfolio-contact-info {
+  @apply text-gray-600;
+}
+.theme-minimalist-focus .portfolio-contact-info .portfolio-link {
+  @apply text-gray-700 hover:text-black;
+}
+.theme-minimalist-focus .portfolio-header .avatar-container {
+  @apply bg-gray-200 ring-gray-50;
+}
+.theme-minimalist-focus .portfolio-header .avatar-initials {
+  @apply text-gray-700;
+}
+
+/* For minimalist, sections blend more; remove card look for default sections */
+.theme-minimalist-focus .portfolio-section {
+  @apply bg-transparent p-0 shadow-none;
+}
+/* Special sections (Golden Thread, What If, Hidden Gems) might retain some subtle boxing if their custom class in page.tsx defines it */
+.theme-minimalist-focus .text-center.bg-indigo-50 {
+  /* Golden Thread default specific background */
+  @apply border-gray-200 bg-gray-100;
+}
+.theme-minimalist-focus .what-if-section-container {
+  @apply bg-gray-100/70;
+}
+.theme-minimalist-focus .hidden-gems-section-container {
+  @apply bg-gray-100;
+}
+
+.theme-minimalist-focus .portfolio-section-title {
+  @apply mb-4 border-b border-gray-300 pb-2 text-2xl text-gray-700 md:text-3xl; /* Underlined title */
+}
+.theme-minimalist-focus .portfolio-section-icon {
+  @apply text-gray-500;
+}
+.theme-minimalist-focus .portfolio-prose {
+  @apply text-gray-700;
+}
+.theme-minimalist-focus .portfolio-prose a {
+  @apply text-gray-700 underline hover:text-black;
+}
+.theme-minimalist-focus .portfolio-prose strong {
+  @apply text-gray-900;
+}
+
+.theme-minimalist-focus .skill-tag {
+  @apply bg-gray-200 font-normal text-gray-800 hover:bg-gray-300;
+}
+.theme-minimalist-focus .portfolio-link {
+  @apply font-medium text-gray-700 underline-offset-2 hover:text-black;
+}
+
+/* Timeline - Minimalist Focus */
+.theme-minimalist-focus .experience-timeline-line::before,
+.theme-minimalist-focus .education-timeline-line::before {
+  @apply bg-gray-300;
+}
+.theme-minimalist-focus .experience-timeline-dot,
+.theme-minimalist-focus .education-timeline-dot {
+  @apply border-white bg-gray-700 ring-gray-400;
+}
+.theme-minimalist-focus .experience-timeline-dot .lucide,
+.theme-minimalist-focus .education-timeline-dot .lucide {
+  @apply text-white;
+}
+
+/* Specific Cards - Minimalist Focus (should be very subtle if carded at all) */
+.theme-minimalist-focus .key-theme-card {
+  @apply border-gray-200 bg-gray-50 shadow-sm;
+}
+.theme-minimalist-focus .key-theme-card-title {
+  @apply text-gray-700;
+}
+.theme-minimalist-focus .key-theme-card-text {
+  @apply text-gray-600;
+}
+
+.theme-minimalist-focus .showcase-item {
+  @apply border-gray-200 bg-white shadow-sm;
+}
+.theme-minimalist-focus .volunteering-item,
+.theme-minimalist-focus .certification-item {
+  @apply border-gray-200 bg-gray-50 shadow-sm;
+}
+
+.theme-minimalist-focus .what-if-item {
+  @apply border-gray-300 bg-white;
+}
+.theme-minimalist-focus .what-if-item h3 {
+  @apply text-gray-700;
+}
+
+.theme-minimalist-focus .hidden-gem-item {
+  @apply border-gray-300 bg-white;
+}
+.theme-minimalist-focus .hidden-gem-item h3 {
+  @apply text-gray-700;
+}
+
+/* Add more styles for links, blockquotes, lists within .portfolio-prose for each theme if needed */
+
+/* Ensure AnimatedSection gets its base styles if not themed (already seems to be handled by inheriting) */
+.animated-section-base {
+  /* Add any base styles for AnimatedSection if needed, though it mostly inherits */
+}

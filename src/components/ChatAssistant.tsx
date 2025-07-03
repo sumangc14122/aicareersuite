@@ -361,7 +361,9 @@ const ChatAssistant = () => {
   });
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages[messages.length - 1]?.role === "user") {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages, isLoading]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -509,41 +511,43 @@ const ChatAssistant = () => {
             </div>
 
             <div className="flex-grow space-y-4 overflow-y-auto bg-white p-4 dark:bg-gray-800">
-              {messages.map((m) => (
-                <div
-                  key={m.id}
-                  className={`group flex items-start gap-2.5 ${m.role === "user" ? "justify-end" : "justify-start"}`}
-                >
+              {messages.map((m) => {
+                return (
                   <div
-                    className={`max-w-[85%] whitespace-pre-wrap rounded-xl px-3.5 py-2.5 text-xs shadow-sm ${m.role === "user" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"}`}
+                    key={m.id}
+                    className={`group flex items-start gap-2.5 ${m.role === "user" ? "justify-end" : "justify-start"}`}
                   >
-                    {/* FIX: Reduced line-height for more compact text */}
-                    <ReactMarkdown
-                      className="prose-xs prose max-w-none dark:prose-invert prose-p:my-0 prose-p:leading-snug prose-ol:my-2 prose-ul:my-2 prose-li:my-0.5"
-                      remarkPlugins={[remarkGfm]}
-                      components={MarkdownComponents}
+                    <div
+                      className={`max-w-[85%] whitespace-normal rounded-xl px-3.5 py-2.5 text-xs shadow-sm ${m.role === "user" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"}`}
                     >
-                      {m.content}
-                    </ReactMarkdown>
-                  </div>
-                  {m.role === "assistant" &&
-                    messages.length > 1 &&
-                    !isLoading && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="ml-1 h-6 w-6 flex-shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
-                        onClick={() => handleCopy(m.content, m.id)}
+                      {/* FIX: Reduced line-height for more compact text */}
+                      <ReactMarkdown
+                        className={` ${m.role === "user" && "text-white"} prose-xs prose flex max-w-none flex-col dark:prose-invert prose-p:my-1 prose-p:leading-snug prose-ol:my-2 prose-ul:my-2 prose-li:my-0.5`}
+                        remarkPlugins={[remarkGfm]}
+                        components={MarkdownComponents}
                       >
-                        {copiedMessageId === m.id ? (
-                          <Check className="h-4 w-4 text-green-500" />
-                        ) : (
-                          <Copy className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-                        )}
-                      </Button>
-                    )}
-                </div>
-              ))}
+                        {m.content}
+                      </ReactMarkdown>
+                    </div>
+                    {m.role === "assistant" &&
+                      messages.length > 1 &&
+                      !isLoading && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="ml-1 h-6 w-6 flex-shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+                          onClick={() => handleCopy(m.content, m.id)}
+                        >
+                          {copiedMessageId === m.id ? (
+                            <Check className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <Copy className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+                          )}
+                        </Button>
+                      )}
+                  </div>
+                );
+              })}
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="rounded-2xl bg-gray-200 px-4 py-2 text-sm dark:bg-gray-700">

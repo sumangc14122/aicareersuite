@@ -1,4 +1,3 @@
-
 import { OpenAI } from "openai";
 import { Pinecone } from "@pinecone-database/pinecone";
 
@@ -7,7 +6,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
 const pineconeIndex = pinecone.index(process.env.PINECONE_INDEX_NAME!);
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
@@ -26,7 +25,7 @@ export async function POST(req: Request) {
       topK: 4,
       includeMetadata: true,
     });
-    
+
     const relevantContext = queryResponse.matches
       .map((match) => match.metadata?.text)
       .join("\n\n---\n\n");
@@ -60,21 +59,21 @@ export async function POST(req: Request) {
 
     // Create the exact stream format that useChat expects
     const encoder = new TextEncoder();
-    
+
     const stream = new ReadableStream({
       async start(controller) {
         try {
           // let messageId = `msg-${Date.now()}`;
-          
+
           for await (const chunk of response) {
             const content = chunk.choices[0]?.delta?.content;
-            
+
             if (content) {
               // Format as the AI SDK expects: "0:content\n"
-              const formattedData = `0:"${content.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"\n`;
+              const formattedData = `0:"${content.replace(/"/g, '\\"').replace(/\n/g, "\\n")}"\n`;
               controller.enqueue(encoder.encode(formattedData));
             }
-            
+
             // Handle the end of stream
             if (chunk.choices[0]?.finish_reason) {
               // Send the final message metadata
@@ -85,8 +84,9 @@ export async function POST(req: Request) {
           }
           controller.close();
         } catch (error) {
-          console.error('Stream error:', error);
-          const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+          console.error("Stream error:", error);
+          const errorMessage =
+            error instanceof Error ? error.message : "Unknown error occurred";
           const errorData = `3:${JSON.stringify({ error: errorMessage })}\n`;
           controller.enqueue(encoder.encode(errorData));
           controller.close();
@@ -96,12 +96,11 @@ export async function POST(req: Request) {
 
     return new Response(stream, {
       headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
       },
     });
-
   } catch (error) {
     console.error("An error occurred in the chat API:", error);
     return new Response("An internal error occurred.", { status: 500 });

@@ -642,14 +642,14 @@ const ChatAssistant = () => {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="flex gap-2 p-4">
+            <form onSubmit={handleSubmit} className="flex gap-1 p-4">
               <input
                 value={input}
                 onChange={handleInputChange}
                 placeholder="Ask a question..."
                 autoComplete="off"
                 aria-label="Chat input"
-                className="flex-grow rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="w-[67%] flex-grow rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               />
               <Button
                 type="submit"

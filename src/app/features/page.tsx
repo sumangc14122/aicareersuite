@@ -482,6 +482,8 @@ import Link from "next/link";
 import { StaticImageData } from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
+import ChatAssistant from "@/components/ChatAssistant";
+
 
 import { Button } from "@/components/ui/button";
 import {
@@ -1079,6 +1081,7 @@ export default function FeaturesPage() {
           </motion.div>
         </div>
       </section>
+      <ChatAssistant />
     </div>
   );
 }

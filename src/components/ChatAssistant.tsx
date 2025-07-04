@@ -336,6 +336,10 @@ const MarkdownComponents: Options["components"] = {
 // --- MAIN COMPONENT ---
 const ChatAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isTeaserVisible, setIsTeaserVisible] = useState(false);
+  const TEASER_DELAY = 1500; // 5 seconds
+  // const TEASER_SEEN_KEY = "chatTeaserSeen";
+
   const [chatMode, setChatMode] = useState<ChatMode>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [showHintScreen, setShowHintScreen] = useState<boolean>(true);
@@ -359,6 +363,18 @@ const ChatAssistant = () => {
     api: "/api/chat",
     body: { mode: chatMode },
   });
+
+useEffect(() => {
+    // If the main chat window is already open, do nothing.
+    if (isOpen) return;
+
+    // Otherwise, set a timer to show the pop-up.
+    const timer = setTimeout(() => {
+      setIsTeaserVisible(true);
+    }, TEASER_DELAY);
+
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   useEffect(() => {
     if (messages[messages.length - 1]?.role === "user") {
@@ -406,10 +422,17 @@ const ChatAssistant = () => {
     setMessages([]);
     setInput("");
   };
-  const handleOpen = () => setIsOpen(true);
+  const handleOpen = () =>  {
+    setIsOpen(true)
+   if (isTeaserVisible) setIsTeaserVisible(false);    
+  };
   const handleClose = () => {
     setIsOpen(false);
     resetChat();
+  };
+
+    const handleDismissTeaser = () => {
+    setIsTeaserVisible(false);
   };
 
   const handleCopy = (content: string, id: string) => {
@@ -453,6 +476,36 @@ const ChatAssistant = () => {
 
   return (
     <>
+
+      <AnimatePresence>
+        {isTeaserVisible && !isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="fixed bottom-24 right-5 z-[99] w-64 rounded-xl bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 dark:bg-gray-800 dark:ring-white/10"
+          >
+            <button
+              onClick={handleDismissTeaser}
+              className="absolute right-2 top-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+              aria-label="Dismiss welcome message"
+            >
+              <X size={18} />
+            </button>
+            <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">Need help?</p>
+            <p className="mb-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
+              Ask me anything about resumes, interviews, or our platform features!
+            </p>
+            <Button onClick={handleOpen} className="w-full" size="sm">
+              Ask a Question
+            </Button>
+            {/* This creates the small triangle pointer */}
+            <div className="absolute -bottom-2 right-6 h-4 w-4 rotate-45 bg-white dark:bg-gray-800" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    
       <div className="fixed bottom-5 right-5 z-[100]">
         <AnimatePresence>
           {!isOpen && (

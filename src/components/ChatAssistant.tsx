@@ -337,7 +337,7 @@ const MarkdownComponents: Options["components"] = {
 const ChatAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTeaserVisible, setIsTeaserVisible] = useState(false);
-  const TEASER_DELAY = 1500; // 5 seconds
+  const TEASER_DELAY = 15000; // 15 seconds
   // const TEASER_SEEN_KEY = "chatTeaserSeen";
 
   const [chatMode, setChatMode] = useState<ChatMode>(null);
@@ -364,11 +364,11 @@ const ChatAssistant = () => {
     body: { mode: chatMode },
   });
 
-useEffect(() => {
+  useEffect(() => {
     // If the main chat window is already open, do nothing.
     if (isOpen) return;
 
-    // Otherwise, set a timer to show the pop-up.
+    // Otherwise, set a timer to show the pop-up. - increased delay
     const timer = setTimeout(() => {
       setIsTeaserVisible(true);
     }, TEASER_DELAY);
@@ -422,16 +422,16 @@ useEffect(() => {
     setMessages([]);
     setInput("");
   };
-  const handleOpen = () =>  {
-    setIsOpen(true)
-   if (isTeaserVisible) setIsTeaserVisible(false);    
+  const handleOpen = () => {
+    setIsOpen(true);
+    if (isTeaserVisible) setIsTeaserVisible(false);
   };
   const handleClose = () => {
     setIsOpen(false);
     resetChat();
   };
 
-    const handleDismissTeaser = () => {
+  const handleDismissTeaser = () => {
     setIsTeaserVisible(false);
   };
 
@@ -476,7 +476,6 @@ useEffect(() => {
 
   return (
     <>
-
       <AnimatePresence>
         {isTeaserVisible && !isOpen && (
           <motion.div
@@ -493,9 +492,12 @@ useEffect(() => {
             >
               <X size={18} />
             </button>
-            <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">Need help?</p>
+            <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+              Need help?
+            </p>
             <p className="mb-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Ask me anything about resumes, interviews, or our platform features!
+              Ask me anything about resumes, interviews, or our platform
+              features!
             </p>
             <Button onClick={handleOpen} className="w-full" size="sm">
               Ask a Question
@@ -505,7 +507,7 @@ useEffect(() => {
           </motion.div>
         )}
       </AnimatePresence>
-    
+
       <div className="fixed bottom-5 right-5 z-[100]">
         <AnimatePresence>
           {!isOpen && (

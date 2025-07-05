@@ -8,7 +8,33 @@ import CreateResumeButton from "./CreateResumeButton";
 import ResumeItem from "./ResumeItem";
 
 export const metadata: Metadata = {
-  title: "Your resumes",
+  title: "Your Resumes - AI Resume Builder",
+  description: "View and manage your resumes created with AI Resume Builder.",
+  openGraph: {
+    title: "Your Resumes - AI Resume Builder",
+    description: "View and manage your resumes created with AI Resume Builder.",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "AI Resume Builder",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Your Resumes - AI Resume Builder",
+    description: "View and manage your resumes created with AI Resume Builder.",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "AI Resume Builder",
+      },
+    ],
+  },
 };
 
 export default async function Page() {

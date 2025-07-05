@@ -5,7 +5,6 @@ import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-// src/app/layout.tsx
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 // import Link from "next/link";

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: "Experiment with different resume formats and styles.",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "Interactive Resume Lab",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "Experiment with different resume formats and styles.",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "Interactive Resume Lab",

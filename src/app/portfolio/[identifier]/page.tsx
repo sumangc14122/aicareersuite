@@ -2686,6 +2686,44 @@ export async function generateMetadata({
       `View the interactive career portfolio of ${
         portfolio.publicFullName || portfolio.title
       }. Created with Resume Wizard Pro.`,
+
+    openGraph: {
+      title: `${
+        portfolio.publicFullName || portfolio.title || "Career Portfolio"
+      } | Resume Wizard Pro`,
+      description:
+        portfolio.publicSummary ||
+        `View the interactive career portfolio of ${
+          portfolio.publicFullName || portfolio.title
+        }. Created with Resume Wizard Pro.`,
+      images: [
+        {
+          url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: "AI Resume Builder",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${
+        portfolio.publicFullName || portfolio.title || "Career Portfolio"
+      } | Resume Wizard Pro`,
+      description:
+        portfolio.publicSummary ||
+        `View the interactive career portfolio of ${
+          portfolio.publicFullName || portfolio.title
+        }. Created with Resume Wizard Pro.`,
+      images: [
+        {
+          url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: "AI Resume Builder",
+        },
+      ],
+    },
   };
 }
 

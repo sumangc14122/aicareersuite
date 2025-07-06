@@ -5,10 +5,8 @@ import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-// src/app/layout.tsx
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-// import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +17,33 @@ export const metadata: Metadata = {
   },
   description:
     "AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job.",
+  openGraph: {
+    title: "AI Resume Builder",
+    description:
+      "AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job.",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "AI Resume Builder",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI Resume Builder",
+    description:
+      "AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job.",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "AI Resume Builder",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -63,8 +88,8 @@ export default function RootLayout({
             crossOrigin="anonymous"
           ></Script>
 
-<Script id="adroll-init" strategy="afterInteractive">
-  {`
+          <Script id="adroll-init" strategy="afterInteractive">
+            {`
     adroll_adv_id = "N22Q7E234NDEDM6B4RLREI";
     adroll_pix_id = "XIBD34PI4VAJPAAXQO5Q2Z";
     adroll_version = "2.0";
@@ -90,7 +115,7 @@ export default function RootLayout({
     })(window, document);
     adroll.track("pageView");
   `}
-</Script>
+          </Script>
         </head>
         <body className={inter.className}>
           <ThemeProvider

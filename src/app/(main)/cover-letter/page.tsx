@@ -12,7 +12,7 @@ export const metadata: Metadata = {
       "Create a professional cover letter that will help you land your dream job.",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "Cover Letter Builder",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
       "Create a professional cover letter that will help you land your dream job.",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "Cover Letter Builder",

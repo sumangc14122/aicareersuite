@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: "Create your resume step by step with our wizard.",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "Resume Wizard",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     description: "Create your resume step by step with our wizard.",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/og-image.png`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "Resume Wizard",

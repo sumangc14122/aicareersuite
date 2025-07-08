@@ -146,51 +146,9 @@ import "react-pdf/dist/esm/Page/TextLayer.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.airesumepro.app';
-const ogImageUrl = `${baseUrl}/og-image.png`;
-
 export const metadata: Metadata = {
-  title: {
-    template: "%s - AI Resume Builder",
-    default: "AI Resume Builder",
-  },
-  description:
-    "AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job.",
-  metadataBase: new URL(baseUrl),
-  
-  openGraph: {
-    type: 'website',
-    siteName: 'AI Resume Builder',
-    title: "AI Resume Builder",
-    description:
-      "AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job.",
-    url: baseUrl,
-    images: [
-      {
-        url: ogImageUrl,
-        width: 1200,
-        height: 630,
-        alt: "AI Resume Builder",
-        type: 'image/png',
-      },
-    ],
-    locale: 'en_US',
-  },
-  
-  twitter: {
-    card: "summary_large_image",
-    site: "@ai_career_suite",
-    creator: "@ai_career_suite",
-    title: "AI Resume Builder",
-    description:
-      "AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job.",
-    images: [ogImageUrl],
-  },
-  
-  robots: {
-    index: true,
-    follow: true,
-  },
+  title: "AI Resume Builder",
+  description: "AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job.",
 };
 
 export default function RootLayout({
@@ -202,28 +160,46 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <head>
-          {/* Explicit meta tags for better compatibility */}
-          <meta property="og:url" content={baseUrl} />
+          {/* Basic Meta Tags */}
+          <title>AI Resume Builder</title>
+          <meta name="description" content="AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job." />
+          
+          {/* WhatsApp-specific optimizations */}
+          <meta httpEquiv="cache-control" content="no-cache" />
+          <meta httpEquiv="expires" content="0" />
+          <meta httpEquiv="pragma" content="no-cache" />
+          
+          {/* Open Graph Meta Tags - WhatsApp specific order */}
           <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://www.airesumepro.app/" />
           <meta property="og:title" content="AI Resume Builder" />
           <meta property="og:description" content="AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job." />
-          <meta property="og:image" content={ogImageUrl} />
-          <meta property="og:image:secure_url" content={ogImageUrl} />
+          <meta property="og:image" content="https://www.airesumepro.app/og-image.png" />
+          <meta property="og:image:secure_url" content="https://www.airesumepro.app/og-image.png" />
+          <meta property="og:image:type" content="image/png" />
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />
-          <meta property="og:image:alt" content="AI Resume Builder" />
+          <meta property="og:image:alt" content="AI Resume Builder - Create professional resumes easily" />
           <meta property="og:site_name" content="AI Resume Builder" />
           <meta property="og:locale" content="en_US" />
           
+          {/* Additional WhatsApp-friendly tags */}
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          
+          {/* Twitter Meta Tags */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="@ai_career_suite" />
           <meta name="twitter:creator" content="@ai_career_suite" />
           <meta name="twitter:title" content="AI Resume Builder" />
           <meta name="twitter:description" content="AI Resume Builder is the easiest way to create a professional resume that will help you land your dream job." />
-          <meta name="twitter:image" content={ogImageUrl} />
+          <meta name="twitter:image" content="https://www.airesumepro.app/og-image.png" />
           <meta name="twitter:image:alt" content="AI Resume Builder" />
           <meta property="twitter:domain" content="airesumepro.app" />
-          <meta property="twitter:url" content={baseUrl} />
+          <meta property="twitter:url" content="https://www.airesumepro.app" />
+          
+          {/* Canonical URL */}
+          <link rel="canonical" href="https://www.airesumepro.app/" />
           
           <Script
             strategy="afterInteractive"

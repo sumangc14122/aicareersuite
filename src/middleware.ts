@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const isPublicRoute = createRouteMatcher([
@@ -14,10 +15,27 @@ const isPublicRoute = createRouteMatcher([
   // "/wizard/(.*)",       
 ]);
 
+// Define suspicious paths you want to block
+const isBlockedPath = (pathname: string) => {
+  return (
+    pathname.startsWith("/wp-admin") ||
+    pathname.startsWith("/wordpress/wp-admin")
+  );
+};
+
 export default clerkMiddleware(async (auth, request) => {
+  const { pathname } = request.nextUrl;
+
+  if (isBlockedPath(pathname)) {
+    // Immediately return a 404
+    return new NextResponse("Not Found", { status: 404 });
+  }
+
   if (!isPublicRoute(request)) {
     await auth.protect();
   }
+
+  return NextResponse.next();
 });
 
 export const config = {

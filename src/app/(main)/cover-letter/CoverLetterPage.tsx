@@ -479,12 +479,12 @@ export default function CoverLetterPage() {
               Template
             </label>
             <select
-              className="mt-1 w-full appearance-none rounded-lg border border-gray-300 bg-white p-3 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500"
+              className="mt-1 w-full appearance-none rounded-lg border border-gray-300 p-3 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500"
               value={templateId}
               onChange={(e) => setTemplateId(e.target.value)}
             >
               {coverLetterTemplates.map((t) => (
-                <option key={t.id} value={t.id}>
+                <option key={t.id} value={t.id} className="text-sm">
                   {t.name}
                 </option>
               ))}
@@ -525,7 +525,6 @@ export default function CoverLetterPage() {
               "Generate Cover Letter"
             )}
           </motion.button>
-
           <AnimatePresence>
             {letter && (
               <motion.div
@@ -533,15 +532,15 @@ export default function CoverLetterPage() {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
-                className="mt-6 rounded-lg bg-gray-900 p-6 text-white shadow-lg"
+                className="mt-6 rounded-lg bg-white p-6 text-white shadow-lg dark:bg-black"
               >
                 <h2 className="mb-4 bg-gradient-to-r from-teal-400 to-green-500 bg-clip-text text-2xl font-bold text-transparent">
                   Your Cover Letter
                 </h2>
-                <div className="prose whitespace-pre-wrap text-sm leading-relaxed">
+                <div className="prose whitespace-pre-wrap text-sm leading-relaxed dark:text-white">
                   {letter}
                 </div>
-                <div className="mt-4 flex gap-4">
+                <div className="mt-4 flex flex-col gap-4 sm:flex-row">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}

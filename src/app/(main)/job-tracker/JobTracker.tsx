@@ -2856,7 +2856,7 @@ export default function JobTracker() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.3 }}
-                      className="border-t transition-all duration-200 hover:bg-gray-100"
+                      className="border-t transition-all duration-200 hover:bg-gray-100 dark:bg-gray-600 hover:dark:bg-gray-700"
                     >
                       <td className="p-4">{job.companyName}</td>
                       <td className="p-4">{job.jobTitle}</td>

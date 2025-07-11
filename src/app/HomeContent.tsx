@@ -2468,14 +2468,13 @@ const cardHoverEffect = {
   transition: { duration: 0.2 },
 };
 
-
 // SECTION: Simple Navbar
 // const SimpleNavbar = ({ isSignedIn }: { isSignedIn: boolean | undefined }) => {
-  export const SimpleNavbar = ({
-    isSignedIn,
-  }: {
-    isSignedIn: boolean | undefined;
-  }) => {
+export const SimpleNavbar = ({
+  isSignedIn,
+}: {
+  isSignedIn: boolean | undefined;
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -3239,7 +3238,7 @@ export default function HomeContent() {
                   onClick={() => {
                     setShowCookieBanner(false);
                   }}
-                  className="border-slate-600 px-3 py-1.5 text-slate-300 hover:bg-slate-700 hover:text-white dark:border-slate-500 dark:hover:bg-slate-600 sm:px-4"
+                  className="border-slate-600 px-3 py-1.5 text-black hover:bg-slate-700 hover:text-white dark:border-slate-500 dark:text-white dark:hover:bg-slate-600 sm:px-4"
                 >
                   Manage Preferences
                 </Button>

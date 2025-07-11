@@ -926,7 +926,7 @@ export default function InterviewSimulator() {
             )}
 
             {/* Controls */}
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row">
               <motion.button
                 animate={listening ? { scale: [1, 1.1, 1] } : undefined}
                 transition={
@@ -935,7 +935,7 @@ export default function InterviewSimulator() {
                 onClick={() => (listening ? stopRecording() : startRecording())}
                 className={`${
                   listening ? "bg-red-500" : "bg-green-500"
-                } flex items-center gap-2 rounded-lg px-4 py-2 text-white shadow-md transition-all hover:opacity-90`}
+                } flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-white shadow-md transition-all hover:opacity-90`}
               >
                 {listening ? "⏹ Stop Recording" : "▶️ Record Answer"}
               </motion.button>
@@ -1022,7 +1022,7 @@ export default function InterviewSimulator() {
                     ⚠️ AI-generated
                   </div>
                 )}
-                <ul className="list-inside list-disc space-y-1">
+                <ul className="list-inside list-disc space-y-1 dark:text-gray-800">
                   <li>
                     <strong>Situation:</strong> {feedbackSections.situation}
                   </li>
@@ -1037,13 +1037,13 @@ export default function InterviewSimulator() {
                   </li>
                 </ul>
 
-                <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="grid grid-cols-3 gap-4 text-center dark:dark:text-gray-800">
                   <div>Confidence: {eqMetrics.confidence}/100</div>
                   <div>Enthusiasm: {eqMetrics.enthusiasm}/100</div>
                   <div>Empathy: {eqMetrics.empathy}/100</div>
                 </div>
 
-                <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${((questionNumber - 1) / 5) * 100}%` }}

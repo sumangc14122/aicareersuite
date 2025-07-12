@@ -479,12 +479,17 @@ export default function CoverLetterPage() {
               Template
             </label>
             <select
-              className="mt-1 w-full appearance-none rounded-lg border border-gray-300 p-3 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500"
+              // className="mt-1 w-full appearance-none rounded-lg border border-gray-300 p-3 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500"
+             
+              className="mt-1 w-full appearance-none rounded-lg border border-gray-300 bg-white p-3 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-teal-500"
+
               value={templateId}
               onChange={(e) => setTemplateId(e.target.value)}
             >
               {coverLetterTemplates.map((t) => (
-                <option key={t.id} value={t.id} className="text-sm">
+                <option key={t.id} value={t.id} 
+                // className="text-sm"
+                >
                   {t.name}
                 </option>
               ))}

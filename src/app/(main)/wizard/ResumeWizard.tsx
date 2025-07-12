@@ -1155,7 +1155,7 @@ export default function ResumeWizard() {
   const primaryButtonClass =
     "px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:bg-blue-800";
   const secondaryButtonClass =
-    "px-6 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200 disabled:opacity-50 transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md";
+    "px-6 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200 disabled:opacity-50 transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md dark:text-black";
   const sectionCardClass = "bg-white p-6 sm:p-8 rounded-xl shadow-xl";
 
   const personalInfo = resume.personal || {

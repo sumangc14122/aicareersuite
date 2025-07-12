@@ -49,7 +49,7 @@ export function BulletArena({ bullets, onUpdate }: BulletArenaProps) {
 
   if (!currentPair) {
     return (
-      <div className="italic text-gray-600">
+      <div className="italic text-gray-600 dark:text-black">
         All bullets have fought in the arena!
       </div>
     );
@@ -58,19 +58,21 @@ export function BulletArena({ bullets, onUpdate }: BulletArenaProps) {
   const [a, b] = currentPair;
   return (
     <div className="space-y-4 rounded bg-indigo-50 p-4">
-      <h4 className="font-semibold">🏆 Bullet Arena</h4>
-      <p className="text-sm">
+      <h4 className="font-semibold dark:text-black">🏆 Bullet Arena</h4>
+      <p className="text-sm dark:text-black">
         Which of these reads stronger? We&apos;ll refine your choice.
       </p>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {[a, b].map((txt, idx) => (
           <button
             key={`${txt.slice(0, 20)}-${idx}`}
             onClick={() => pick(txt === a ? a : b, txt === a ? b : a)}
             disabled={loading}
-            className="flex items-center justify-center rounded border bg-white p-3 text-left hover:shadow"
+            className="flex items-center justify-center rounded border bg-white p-3 text-left hover:shadow dark:text-black"
           >
-            {loading && <span className="mr-2 animate-pulse">…</span>}
+            {loading && (
+              <span className="mr-2 animate-pulse dark:text-black">…</span>
+            )}
             {txt}
           </button>
         ))}

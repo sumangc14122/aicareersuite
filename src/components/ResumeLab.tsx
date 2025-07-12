@@ -894,10 +894,10 @@ export default function ResumeLab() {
               <div className="text-[9px] text-gray-500">
                 {new Date(s.createdAt).toLocaleString()}
               </div>
-              <blockquote className="mt-1 border-l-2 border-blue-300 pl-1 italic">
+              <blockquote className="mt-1 border-l-2 border-blue-300 pl-1 italic dark:text-black">
                 {s.snippet}
               </blockquote>
-              <p className="mt-1">{s.suggestion}</p>
+              <p className="mt-1 dark:text-black">{s.suggestion}</p>
               <button
                 onClick={() =>
                   copyToClipboard(
@@ -923,10 +923,10 @@ export default function ResumeLab() {
               <div className="text-[9px] text-gray-500">
                 {new Date(a.createdAt).toLocaleString()}
               </div>
-              <blockquote className="mt-1 border-l-2 border-yellow-300 pl-1 italic">
+              <blockquote className="mt-1 border-l-2 border-yellow-300 pl-1 italic dark:text-black">
                 {a.snippet}
               </blockquote>
-              <p className="mt-1">{a.comment}</p>
+              <p className="mt-1 dark:text-black">{a.comment}</p>
               <button
                 onClick={() =>
                   copyToClipboard(

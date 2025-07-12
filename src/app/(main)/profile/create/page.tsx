@@ -177,14 +177,11 @@ export default function ProfileCreatePage() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="tagline"
-                className="mb-2 block text-sm font-bold text-gray-700"
-              >
+              <label htmlFor="tagline" className="mb-2 block text-sm font-bold">
                 Your Tagline
               </label>
               <input
@@ -192,7 +189,7 @@ export default function ProfileCreatePage() {
                 id="tagline"
                 value={tagline}
                 onChange={(e) => setTagline(e.target.value)}
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                 placeholder="e.g., Software Engineer | Problem Solver | Lifelong Learner"
               />
             </div>
@@ -210,7 +207,7 @@ export default function ProfileCreatePage() {
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 rows={4}
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                 placeholder="A brief introduction about yourself and your professional journey."
               ></textarea>
             </div>
@@ -226,7 +223,7 @@ export default function ProfileCreatePage() {
                 id="jobTitle"
                 value={jobTitle}
                 onChange={(e) => setJobTitle(e.target.value)}
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                 placeholder="e.g., Senior Project Manager"
               />
             </div>
@@ -242,7 +239,7 @@ export default function ProfileCreatePage() {
                 id="socialLink"
                 value={socialLink}
                 onChange={(e) => setSocialLink(e.target.value)}
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                 placeholder="https://linkedin.com/in/yourprofile"
               />
             </div>
@@ -258,7 +255,7 @@ export default function ProfileCreatePage() {
                 id="industry"
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                 placeholder="e.g., Technology, Finance, Education"
               />
             </div>
@@ -276,7 +273,7 @@ export default function ProfileCreatePage() {
                 id="resumeUrl"
                 value={resumeUrl}
                 onChange={(e) => setResumeUrl(e.target.value)}
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                 placeholder="Link to your resume (PDF, DOCX)"
               />
             </div>
@@ -292,7 +289,7 @@ export default function ProfileCreatePage() {
                 id="coverLetterUrl"
                 value={coverLetterUrl}
                 onChange={(e) => setCoverLetterUrl(e.target.value)}
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                 placeholder="Link to your cover letter (PDF, DOCX)"
               />
             </div>
@@ -310,7 +307,7 @@ export default function ProfileCreatePage() {
                 id="skills"
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}
-                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                 placeholder="e.g., JavaScript, React, Project Management"
               />
               <p className="text-xs italic text-gray-500">

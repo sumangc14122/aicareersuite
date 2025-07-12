@@ -1037,7 +1037,7 @@ export default function InterviewSimulator() {
                   </li>
                 </ul>
 
-                <div className="grid grid-cols-3 gap-4 text-center dark:dark:text-gray-800">
+                <div className="grid grid-cols-3 gap-4 text-center dark:text-gray-800">
                   <div>Confidence: {eqMetrics.confidence}/100</div>
                   <div>Enthusiasm: {eqMetrics.enthusiasm}/100</div>
                   <div>Empathy: {eqMetrics.empathy}/100</div>

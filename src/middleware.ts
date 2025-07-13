@@ -10,27 +10,57 @@ const isPublicRoute = createRouteMatcher([
   "/features(.*)",
   "/portfolio/(.*)",
   "/api/chat",
-  "/sitemap.xml",         
-  "/robots.txt",          
-  // "/wizard/(.*)",       
+  "/sitemap.xml",
+  "/robots.txt",
 ]);
 
-// Define suspicious paths you want to block
+// Define sensitive paths to block
 const isBlockedPath = (pathname: string) => {
   return (
     pathname.startsWith("/wp-admin") ||
-    pathname.startsWith("/wordpress/wp-admin")
+    pathname.startsWith("/wordpress/wp-admin") ||
+    pathname.startsWith("/.git") ||
+    pathname.startsWith("/.github") ||
+    pathname.startsWith("/database") ||
+    pathname.startsWith("/credentials") ||
+    pathname.startsWith("/config") ||
+    pathname.startsWith("/settings") ||
+    pathname.startsWith("/env") ||
+    pathname.match(/\.yml$/) ||
+    pathname.match(/\.xml$/) ||
+    pathname.match(/\.sql$/) ||
+    pathname.match(/\.log$/) ||
+    pathname.match(/\.bak$/) ||
+    pathname.match(/\.old$/)
   );
 };
 
-export default clerkMiddleware(async (auth, request) => {
-  const { pathname } = request.nextUrl;
+// Validate redirect URLs to prevent open redirect attacks
+const isSafeRedirectUrl = (url: string) => {
+  const allowedDomains = ["www.airesumepro.app", "airesumepro.app"];
+  try {
+    const urlObj = new URL(url);
+    return allowedDomains.includes(urlObj.hostname);
+  } catch {
+    return false;
+  }
+};
 
+export default clerkMiddleware(async (auth, request) => {
+  const { pathname, searchParams } = request.nextUrl;
+  const redirectUrl = searchParams.get("redirect_url");
+
+  // Block access to sensitive paths with a 404
   if (isBlockedPath(pathname)) {
-    // Immediately return a 404
     return new NextResponse("Not Found", { status: 404 });
   }
 
+  // Validate redirect URL if present
+  if (redirectUrl && !isSafeRedirectUrl(redirectUrl)) {
+    return new NextResponse("Invalid redirect", { status: 400 });
+  }
+
+  // Protect non-public routes
   if (!isPublicRoute(request)) {
     await auth.protect();
   }

@@ -609,33 +609,41 @@ export default function ChatInterface() {
   }
 
   return (
-    <div className="flex h-screen flex-col gap-6 bg-gradient-to-br from-pink-100 to-purple-100 p-4 md:flex-row">
+    <div className="flex h-max flex-col gap-6 bg-gradient-to-br from-pink-100 to-purple-100 p-4 md:flex-row">
       {/* Sidebar */}
       <aside className="w-full rounded-xl bg-white/90 p-6 shadow-lg md:w-80">
-        <h2 className="mb-6 text-2xl font-bold">Your Sessions</h2>
+        <h2 className="mb-6 text-2xl font-bold dark:text-black">
+          Your Sessions
+        </h2>
 
         {/* new session */}
         <div className="mb-6 space-y-4">
           <div>
-            <label className="mb-2 block text-sm font-medium">
+            <label className="mb-2 block text-sm font-medium dark:text-black">
               Session Name
             </label>
             <input
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="e.g. Resume Chat"
-              className="w-full rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-teal-500"
+              className="w-full rounded-lg border bg-gray-50 px-4 py-2 dark:text-black"
             />
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium">Topic</label>
+            <label className="mb-2 block text-sm font-medium dark:text-black">
+              Topic
+            </label>
             <select
               value={newTopic}
               onChange={(e) => setNewTopic(e.target.value)}
-              className="w-full rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-teal-500"
+              className="w-full rounded-lg border bg-gray-50 px-4 py-2 dark:text-black"
             >
               {TOPICS.map((t) => (
-                <option key={t.value} value={t.value}>
+                <option
+                  key={t.value}
+                  value={t.value}
+                  className="text-sm dark:text-black"
+                >
                   {t.label}
                 </option>
               ))}
@@ -652,7 +660,9 @@ export default function ChatInterface() {
 
         {/* session list */}
         {sessions.length === 0 ? (
-          <p className="text-sm text-gray-500">No sessions yet.</p>
+          <p className="text-sm text-gray-500 dark:text-black">
+            No sessions yet.
+          </p>
         ) : (
           <div className="max-h-[50vh] space-y-2 overflow-auto">
             {sessions.map((s) => (
@@ -663,7 +673,7 @@ export default function ChatInterface() {
                 }`}
                 onClick={() => setSelectedId(s.id)}
               >
-                <span className="truncate">{s.name}</span>
+                <span className="truncate dark:text-black">{s.name}</span>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -683,7 +693,7 @@ export default function ChatInterface() {
       <div className="flex flex-1 flex-col rounded-xl bg-white/90 p-6 shadow-lg">
         {!selectedId ? (
           <div className="flex flex-1 items-center justify-center">
-            <p className="text-lg text-gray-500">
+            <p className="text-lg text-gray-500 dark:text-black">
               Select or create a session to start.
             </p>
           </div>
@@ -704,7 +714,7 @@ export default function ChatInterface() {
                     }`}
                   >
                     <div className="mb-1 flex items-center text-xs text-gray-600">
-                      <span className="mr-2">
+                      <span className="mr-2 dark:text-black">
                         {new Date(m.createdAt).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
@@ -734,13 +744,13 @@ export default function ChatInterface() {
                 rows={2}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="flex-1 resize-none rounded-lg border bg-gray-50 px-4 py-2 focus:ring-2 focus:ring-teal-500"
+                className="flex-1 resize-none rounded-lg border bg-gray-50 px-4 py-2 dark:text-black"
                 placeholder="Type your message…"
               />
               <button
                 onClick={sendMessage}
                 disabled={!input.trim() || isSending}
-                className={`rounded-lg px-6 py-2 text-white transition-colors ${
+                className={`rounded-lg px-6 py-2 text-white transition-colors dark:text-black ${
                   isSending
                     ? "cursor-wait bg-gray-400"
                     : "bg-teal-500 hover:bg-teal-600 disabled:bg-gray-400"
@@ -757,14 +767,16 @@ export default function ChatInterface() {
       {showDelSess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="w-80 rounded-lg bg-white p-6 shadow-xl">
-            <h3 className="mb-4 text-lg font-semibold">Delete Session?</h3>
-            <p className="mb-6 text-sm">
+            <h3 className="mb-4 text-lg font-semibold dark:text-black">
+              Delete Session?
+            </h3>
+            <p className="mb-6 text-sm dark:text-black">
               This will remove the session <em>and all its messages</em>.
             </p>
             <div className="flex justify-end space-x-2">
               <button
                 onClick={() => setShowDelSess(false)}
-                className="rounded bg-gray-200 px-4 py-2 hover:bg-gray-300"
+                className="rounded bg-gray-200 px-4 py-2 hover:bg-gray-300 dark:text-black"
               >
                 Cancel
               </button>
@@ -783,14 +795,16 @@ export default function ChatInterface() {
       {showDelMsg && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="w-80 rounded-lg bg-white p-6 shadow-xl">
-            <h3 className="mb-4 text-lg font-semibold">Delete Message?</h3>
-            <p className="mb-6 text-sm">
+            <h3 className="mb-4 text-lg font-semibold dark:text-black">
+              Delete Message?
+            </h3>
+            <p className="mb-6 text-sm dark:text-black">
               This will remove the selected message.
             </p>
             <div className="flex justify-end space-x-2">
               <button
                 onClick={() => setShowDelMsg(false)}
-                className="rounded bg-gray-200 px-4 py-2 hover:bg-gray-300"
+                className="rounded bg-gray-200 px-4 py-2 hover:bg-gray-300 dark:text-black"
               >
                 Cancel
               </button>

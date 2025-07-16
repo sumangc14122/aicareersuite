@@ -135,7 +135,7 @@ export default function StatsSummary({ jobs }: StatsSummaryProps) {
 
   return (
     <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2">
-      <div className="rounded-xl border bg-white p-6 shadow">
+      <div className="rounded-xl border bg-white p-6 shadow dark:bg-gray-600">
         <h3 className="mb-4 text-lg font-semibold">Final Result Breakdown</h3>
         <ResponsiveContainer width="100%" height={250}>
           <PieChart>
@@ -155,7 +155,7 @@ export default function StatsSummary({ jobs }: StatsSummaryProps) {
         </ResponsiveContainer>
       </div>
 
-      <div className="rounded-xl border bg-white p-6 shadow">
+      <div className="rounded-xl border bg-white p-6 shadow dark:bg-gray-600">
         <h3 className="mb-4 text-lg font-semibold">Submission Status</h3>
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={submitData}>

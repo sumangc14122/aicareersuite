@@ -8,7 +8,33 @@ import CreateResumeButton from "./CreateResumeButton";
 import ResumeItem from "./ResumeItem";
 
 export const metadata: Metadata = {
-  title: "Your resumes",
+  title: "Your Resumes - AI Resume Builder",
+  description: "View and manage your resumes created with AI Resume Builder.",
+  openGraph: {
+    title: "Your Resumes - AI Resume Builder",
+    description: "View and manage your resumes created with AI Resume Builder.",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "AI Resume Builder",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Your Resumes - AI Resume Builder",
+    description: "View and manage your resumes created with AI Resume Builder.",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "AI Resume Builder",
+      },
+    ],
+  },
 };
 
 export default async function Page() {
@@ -43,7 +69,7 @@ export default async function Page() {
       />
       <div className="space-y-1">
         <h1 className="text-3xl font-bold">Your resumes</h1>
-        <p>Total: {totalCount}</p>
+        <p className="dark:text-white">Total: {totalCount}</p>
       </div>
       <div className="flex w-full grid-cols-2 flex-col gap-3 sm:grid md:grid-cols-3 lg:grid-cols-4">
         {resumes.map((resume) => (

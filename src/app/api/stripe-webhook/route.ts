@@ -20,8 +20,6 @@ export async function POST(req: NextRequest) {
       env.STRIPE_WEBHOOK_SECRET,
     );
 
-    console.log(`Received event: ${event.type}`, event.data.object);
-
     switch (event.type) {
       case "checkout.session.completed":
         await handleSessionCompleted(event.data.object);
@@ -34,7 +32,6 @@ export async function POST(req: NextRequest) {
         await handleSubscriptionDeleted(event.data.object);
         break;
       default:
-        console.log(`Unhandled event type: ${event.type}`);
         break;
     }
 

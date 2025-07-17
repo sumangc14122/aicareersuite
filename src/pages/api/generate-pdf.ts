@@ -588,10 +588,8 @@ export default async function handler(
   let globalCSS = "";
   try {
     const cssPath = path.resolve(process.cwd(), "src", "app", "globals.css");
-    console.log(`Reading CSS from: ${cssPath}`);
     globalCSS = fs.readFileSync(cssPath, "utf-8");
   } catch (err) {
-    console.error("Failed to read globals.css:", err);
     return res.status(500).json({ error: "Server CSS configuration error." });
   }
 
@@ -677,7 +675,6 @@ export default async function handler(
           headless: "shell",
           args: ["--no-sandbox", "--disable-setuid-sandbox"],
         });
-        console.log("Launched full Puppeteer for local development");
       } catch (err) {
         console.warn(
           "Full Puppeteer not found or failed, falling back to @sparticuz/chromium for dev:",
@@ -689,7 +686,6 @@ export default async function handler(
             "Chromium executable path could not be determined for dev fallback.",
           );
         }
-        console.log("Local dev fallback, Chromium path:", execPath);
         browser = await puppeteer.launch({
           args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
           defaultViewport: chromium.defaultViewport,
@@ -705,7 +701,6 @@ export default async function handler(
           "Chromium executable path could not be determined in production.",
         );
       }
-      console.log("Launching Chromium from (production):", execPath);
       browser = await puppeteer.launch({
         args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
         defaultViewport: chromium.defaultViewport,

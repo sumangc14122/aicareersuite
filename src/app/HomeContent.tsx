@@ -2268,6 +2268,9 @@ import {
   Edit3,
   MoveRight,
 } from "lucide-react";
+import coverLetterImg from "../../public/assets/cover-letter.png";
+import resumeAuditImg from "../../public/assets/resume-audit.png";
+import resumeWizardPro from "../../public/assets/resume-wizard-pro.png";
 
 // Assets
 // import logo from "@/assets/logo.png";
@@ -2363,6 +2366,36 @@ const PROCESS_STEPS_DATA = [
     icon: CheckCircle,
     title: "Track & Succeed",
     description: "Manage your job search and gain insights for career growth.",
+  },
+];
+
+const STATIC_BLOG_DATA = [
+  {
+    image: resumeWizardPro,
+    title: "Resume Wizard Pro",
+    subtitle: "Build your resume with smart guidance",
+    href: "/wizard",
+    cta: "Start Building",
+    description:
+      "We walk you through each step—just answer a few questions and we'll help you build a clean, professional, and job-ready resume that works with Applicant Tracking Systems (ATS).",
+  },
+  {
+    image: resumeAuditImg,
+    title: "Resume Audit & Score",
+    subtitle: "Get instant feedback on your resume",
+    href: "/audit",
+    cta: "Check My Resume",
+    description:
+      "Upload your resume and let our AI review it. You'll get a clear score and simple tips to improve things like structure, keywords, and impact—so you stand out to recruiters.",
+  },
+  {
+    image: coverLetterImg,
+    title: "AI Cover Letter Generator",
+    subtitle: "Write the perfect cover letter in seconds",
+    href: "/cover-letter",
+    cta: "Generate Cover Letter",
+    description:
+      "Tell us about the job and a bit about yourself, and our AI will write a personalized, professional cover letter for you—ready to send with your resume.",
   },
 ];
 
@@ -2773,6 +2806,81 @@ export default function HomeContent() {
             <ChevronDown className="h-8 w-8 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 sm:h-10 sm:w-10" />
           </motion.div>
         </motion.div>
+      </motion.section>
+
+      {/* Static Blog */}
+      <motion.section
+        id="how-it-works"
+        className="border-y border-gray-100 bg-white py-16 dark:border-gray-800 dark:bg-gray-900 md:py-24"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
+        <div className="container mx-auto px-4 sm:px-6">
+          <motion.h2
+            variants={itemVariants}
+            className="mb-5 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-center text-3xl font-bold text-transparent dark:from-blue-400 dark:to-teal-300 md:text-4xl"
+          >
+            From Resume to Cover Letter — We&apos;ve Got You
+          </motion.h2>
+          <motion.p
+            variants={itemVariants}
+            className="mx-auto mb-12 max-w-xl text-center text-lg text-gray-600 dark:text-gray-300 md:mb-16"
+          >
+            AI-powered tools to build, polish, and personalize your job
+            applications.
+          </motion.p>
+          {/* blog */}
+          <div className="mx-auto max-w-4xl">
+            {STATIC_BLOG_DATA.map((blog, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                custom={idx}
+                className={`mb-10 flex flex-col ${idx % 2 == 0 ? "sm:flex-row" : "sm:flex-row-reverse"} items-center gap-5 p-6 sm:gap-10`}
+              >
+                <div className="flex-[50%]">
+                  <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                    {blog.title}
+                  </h3>
+                  <p className="mb-5 flex-grow text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                    {blog.description}
+                  </p>
+                  <Link href={blog.href} className="mt-auto block">
+                    <Button
+                      variant="outline"
+                      className="w-full rounded-md px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 group-hover:bg-blue-50 dark:text-blue-400 dark:hover:text-blue-300 dark:group-hover:bg-blue-900/30"
+                    >
+                      {blog.cta}
+                      <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    </Button>
+                  </Link>
+                </div>
+
+                <motion.div
+                  className="mt-auto block flex-[50%] overflow-hidden rounded-2xl border-4 border-white bg-white shadow-lg"
+                  whileHover={{
+                    scale: 1.06,
+                    rotateX: 8,
+                    rotateY: 8,
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  style={{ perspective: 600 }}
+                >
+                  <Link href={blog.href}>
+                    <Image
+                      src={blog.image}
+                      alt={blog.title}
+                      width={300}
+                      className="h-auto w-full"
+                    />
+                  </Link>
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </motion.section>
 
       {/* Process/How It Works Section */}
